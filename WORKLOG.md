@@ -5,6 +5,44 @@
 
 ---
 
+## 2026-05-30 — Session 2: Phase 2 (Format coverage)
+
+**Goal**: Bring `@metascrub/core` from 4 formats (Phase 1) to all 25 spec formats.
+
+**Work done**
+
+- Started with XLSX/PPTX/EPUB/SVG already drafted in working tree from prior session prep — fixed two failures (SVG highlights.author wasn't routing through SVG.metadata.creator; EPUB scrub silently ran the DOCX path because scrub() called detectFormat() with no filename and any ZIP defaulted to docx). Fix: detectZipSubtype() in magic.ts sniffs ZIP local-file-header filenames + EPUB mimetype content; highlights now route through XLSX/PPTX/EPUB/SVG group names too.
+- Committed XLSX/PPTX/EPUB/SVG (26 tests).
+- Spawned three parallel `core-developer` agents in isolated worktrees for the rest:
+  - Image batch (WebP, TIFF, HEIC, AVIF, RAW × 4): all parse via exifr. WebP round-trips (RIFF chunk drop + VP8X flag clear). TIFF round-trips for single-IFD only. HEIC/AVIF use in-place item-payload blanking via a shared \_heif.ts helper (renamed from agent's \_isobmff.ts to avoid colliding with video batch). RAW is parse-only — scrub throws SCRUB_ERROR.
+  - Audio batch (MP3, FLAC, WAV, OGG, M4A): all round-trip. music-metadata for parsing. MP3 drops ID3v2+v1; FLAC walks blocks; WAV drops LIST/INFO; OGG recomputes page CRC32 (skips if comment packet spans pages); M4A uses ISOBMFF box walker with stco/co64 chunk-offset fixup.
+  - Video batch (MP4, MOV, MKV, WebM): all round-trip. MP4/MOV replace moov.udta with a free box of identical size so mdat offsets stay valid (AtomicParsley pattern). MKV/WebM use a small custom EBML walker; drops Tags + SeekHead and blanks Info fields. Custom walkers instead of mp4box/ebml-iterator — kept bundle lean.
+- Merged worktrees back to main: video's \_isobmff.ts kept as canonical; image's helper kept as \_heif.ts; magic.ts and detect.ts manually reconciled to merge all three batches' ISOBMFF/EBML/TIFF logic.
+- Bumped core + CLI versions to 0.2.0. `supportedFormats()` now lists 25.
+
+**Phase 2 quality gate**
+
+- [x] TS types pass strict checks (core + cli).
+- [x] All tests pass (80 in core, 7 in cli).
+- [x] Formatter applied (prettier --write).
+- [x] tsup builds clean (149 KB ESM with all 25 formats; music-metadata dynamically imported).
+- [ ] eslint still not wired (carried forward; deferred to Phase 3).
+
+**Decisions worth remembering**
+
+- Two `_isobmff.ts` files came back from parallel agents with completely different APIs. Resolved by keeping video's (broader container helpers) and renaming image's to `_heif.ts` (HEIF item/iloc specifics for HEIC/AVIF).
+- MP4 udta removal preserves byte layout via a `free` box of identical size — avoids rewriting stco/co64 chunk-offset tables. Standard editor technique.
+- HEIC/AVIF v0.1 doesn't rewrite iinf/iloc; it only blanks the EXIF item payload. Downstream readers see "no EXIF" but the blanked bytes still occupy mdat. v0.2 should do real item removal.
+- RAW (CR2/NEF/ARW/DNG) is intentionally parse-only — scrubbing risks corrupting per-vendor private IFD layouts. DNG could safely support gps-only in v0.2.
+- ISOBMFF brand `mp4` overlaps M4A. detectFormat() prefers the extension when filename ends `.m4a`/`.m4b`/`.m4p`.
+- EBML DocType reader differentiates Matroska from WebM by scanning the first 4 KiB for element ID 0x4282.
+
+**Status**: Phase 2 code-complete. Core API frozen (no public-API changes). Anton approval required before `git push` and `npm publish`.
+
+**Next session entry point**: Phase 3 — Browser extension + Python port (parallel streams). See ROADMAP Phase 3. Stream A (`extension-developer`): scaffold Vite + crxjs, build popup/options, draft store listings. Stream B (`python-developer`): port JPEG/PNG/PDF/DOCX/MP3 to PyPI package with parity tests.
+
+---
+
 ## 2026-05-29 — Session 1: Phase 1 (Foundation)
 
 **Goal**: Bring `@metascrub/core` + the `metascrub` CLI to working state with the top-4 formats (JPEG, PNG, PDF, DOCX) supported.

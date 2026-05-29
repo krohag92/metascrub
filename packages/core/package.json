@@ -1,6 +1,6 @@
 {
   "name": "@metascrub/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Parse and scrub metadata from images, videos, audio, and documents. The core library for the MetaScrub toolkit at metadatafinder.com.",
   "license": "MIT",
   "homepage": "https://metadatafinder.com",
