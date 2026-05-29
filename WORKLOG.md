@@ -5,6 +5,45 @@
 
 ---
 
+## 2026-05-30 — Session 3: Phase 3 (Extension + Python)
+
+**Goal**: Ship browser extension submission-ready for 4 stores + PyPI package ready to publish.
+
+**Work done**
+
+- Spawned two parallel agents in isolated worktrees per the roadmap's "Stream A / Stream B" split:
+  - `extension-developer`: built `packages/extension/` — MV3 manifest (Chrome family) + Firefox manifest with gecko ID; Vite + @crxjs/vite-plugin; React 18 + Tailwind v4 popup with FileDrop/MetadataView/ScrubPanel/WarningBadge; options page persisting to chrome.storage.sync; background service worker registering "View metadata" + "Download cleaned copy" context menus and dispatching to @metascrub/core; lib/fetch-bytes + lib/download. Builds `dist.zip` (~1.1 MB) and `dist-firefox.zip` (~1.1 MB). Placeholder icons — Anton swaps before submission.
+  - `python-developer`: built `python/` — PyPI package porting JPEG/PNG/PDF/DOCX/MP3 natively (no WASM bridge per PYTHON.md). Pillow + piexif for JPEG; native chunk walker for PNG; pypdf for PDF; zipfile+xml for DOCX (regenerates core.xml/app.xml like TS); **tinytag** (MIT) for MP3 reads, native syncsafe byte surgery for scrub — explicitly avoided mutagen (GPL-2.0+ conflict). click CLI mirrors TS commands (view/scrub/compare/batch/formats) with JSON/CSV/human output. Optional pandas dep for `batch_view(as_dataframe=True)`. Wheel 31 KB, sdist 38 KB.
+- Both worktrees merged with `--no-ff` for traceability; no merge conflicts (separate trees: `packages/extension/` and `python/`).
+- Verified clean install on a fresh venv: `python3 -m venv && pip install -e . pytest && pytest` → 142 passing including 25 parity assertions vs the TS core dist.
+- Full QA sweep across the monorepo: 80 core + 7 CLI + 24 extension + 142 Python = **253 tests passing**. TS typecheck clean for all 3 TS packages.
+
+**Phase 3 quality gate**
+
+- [x] Extension `dist.zip` + `dist-firefox.zip` build clean.
+- [x] Python wheel + sdist build clean.
+- [x] Parity tests: 25/25 Python vs TS core (highlights, warnings, per-group keys; documented divergences for XMP, GPS float precision, PDF dates — none affect highlights).
+- [x] All tests pass (253 across the project).
+- [x] TS typecheck clean on core/cli/extension.
+- [x] README in each package with metadatafinder.com link.
+- [x] LICENSE present in each package.
+- [x] No telemetry / analytics added to any wrapper.
+- [ ] eslint still not wired (carried from Phase 1; deferred — will batch with Phase 4 integrations).
+- [ ] Real icons + screenshots required before store submission (Anton supplies).
+
+**Decisions worth remembering**
+
+- Extension bundle is ~1.1 MB unpacked vs the 500 KB spec target. The overage is fixed core cost (exifr 418 KB + jszip 96 KB + music-metadata 75 KB + React 186 KB) — gzipped it's ~340 KB which fits any store quota. Trimming below 500 KB would mean dropping format support, out of scope here.
+- Python MP3: tinytag is MIT and read-only; we own the byte-surgery scrub so we don't need any writer library. This avoids the mutagen GPL conflict cleanly.
+- Python's XMP support is a single `XMP.raw` group field (Pillow doesn't decode structurally). Parity tests document this so highlights still match TS.
+- Both wrappers depend on the core's public API surface only — they don't reach into internals. Confirms the API freeze was right-sized.
+
+**Status**: Phase 3 code-complete. Anton approval required before extension store submissions and `twine upload`. Local builds verified.
+
+**Next session entry point**: Phase 4 — Developer integrations (parallel batch). VS Code, Obsidian, Raycast, n8n, Figma plugins (each in `packages/<name>/`) via `integrations-developer` agents; then Docker images (`docker/`) sequentially; then Hugging Face Space. See ROADMAP Phase 4 + INTEGRATIONS.md + DOCKER.md.
+
+---
+
 ## 2026-05-30 — Session 2: Phase 2 (Format coverage)
 
 **Goal**: Bring `@metascrub/core` from 4 formats (Phase 1) to all 25 spec formats.
