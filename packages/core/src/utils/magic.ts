@@ -35,6 +35,34 @@ export function detectByMagic(bytes: Uint8Array): FileFormat | null {
   return null;
 }
 
+/**
+ * Disambiguate a ZIP-based container (DOCX/XLSX/PPTX/EPUB) by sniffing the
+ * first few KB for telltale paths. EPUB requires `mimetype` as the very first
+ * entry with content `application/epub+zip`; XLSX/PPTX/DOCX expose top-level
+ * folders `xl/`, `ppt/`, `word/` in their central directory or local headers.
+ *
+ * Returns null if the ZIP can't be classified from this window — callers
+ * should then fall back to the extension or default to docx.
+ */
+export function detectZipSubtype(bytes: Uint8Array): FileFormat | null {
+  if (bytes.length < 30) return null;
+  // Read the window as latin1 — the ZIP local file headers (filenames) and any
+  // STORE-compressed content (EPUB mimetype) are plain-text in the byte stream.
+  // DEFLATE-compressed file contents won't be readable, but their filenames
+  // sit in the LFH right before the deflated payload.
+  const text = new TextDecoder('latin1').decode(bytes.subarray(0, Math.min(bytes.length, 8192)));
+  // EPUB: `mimetype` is the first entry, stored uncompressed; its content
+  // `application/epub+zip` appears verbatim around byte ~38.
+  if (text.includes('application/epub+zip')) return 'epub';
+  // OOXML — match the top-level folder/file paths that appear in local file
+  // headers. The schema MIME types live in the (DEFLATE-compressed) Content
+  // Types part, so we can't rely on them.
+  if (text.includes('xl/workbook.xml') || text.includes('xl/_rels')) return 'xlsx';
+  if (text.includes('ppt/presentation.xml') || text.includes('ppt/slides')) return 'pptx';
+  if (text.includes('word/document.xml') || text.includes('word/_rels')) return 'docx';
+  return null;
+}
+
 export function detectByExtension(filename?: string): FileFormat | null {
   if (!filename) return null;
   const lower = filename.toLowerCase();

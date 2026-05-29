@@ -90,6 +90,9 @@ export function buildHighlights(groups: Groups): {
     toString(findField(groups, 'PDF.Info', 'Producer')?.value) ??
     toString(findField(groups, 'PDF.Info', 'Creator')?.value) ??
     toString(findField(groups, 'DOCX.app', 'Application')?.value) ??
+    toString(findField(groups, 'XLSX.app', 'Application')?.value) ??
+    toString(findField(groups, 'PPTX.app', 'Application')?.value) ??
+    toString(findField(groups, 'SVG.metadata', 'editor')?.value) ??
     toString(findField(groups, 'PNG.text', 'Software')?.value);
   if (software) {
     highlights.software = software;
@@ -104,6 +107,10 @@ export function buildHighlights(groups: Groups): {
     toString(findField(groups, 'XMP', 'creator')?.value) ??
     toString(findField(groups, 'PDF.Info', 'Author')?.value) ??
     toString(findField(groups, 'DOCX.core', 'creator')?.value) ??
+    toString(findField(groups, 'XLSX.core', 'creator')?.value) ??
+    toString(findField(groups, 'PPTX.core', 'creator')?.value) ??
+    toString(findField(groups, 'EPUB.meta', 'creator')?.value) ??
+    toString(findField(groups, 'SVG.metadata', 'creator')?.value) ??
     toString(findField(groups, 'IPTC', 'By-line')?.value) ??
     toString(findField(groups, 'PNG.text', 'Author')?.value) ??
     toString(findField(groups, 'PNG.text', 'Artist')?.value);
@@ -113,7 +120,10 @@ export function buildHighlights(groups: Groups): {
   }
 
   // Last modified by
-  const lastModifiedBy = toString(findField(groups, 'DOCX.core', 'lastModifiedBy')?.value);
+  const lastModifiedBy =
+    toString(findField(groups, 'DOCX.core', 'lastModifiedBy')?.value) ??
+    toString(findField(groups, 'XLSX.core', 'lastModifiedBy')?.value) ??
+    toString(findField(groups, 'PPTX.core', 'lastModifiedBy')?.value);
   if (lastModifiedBy) {
     highlights.lastModifiedBy = lastModifiedBy;
     if (highlights.author && lastModifiedBy.toLowerCase() !== highlights.author.toLowerCase()) {

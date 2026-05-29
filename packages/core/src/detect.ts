@@ -1,5 +1,5 @@
 import type { FileFormat, FileInput } from './types.js';
-import { detectByExtension, detectByMagic } from './utils/magic.js';
+import { detectByExtension, detectByMagic, detectZipSubtype } from './utils/magic.js';
 import { startsWith } from './utils/bytes.js';
 import { listFormats } from './formats/index.js';
 
@@ -20,6 +20,8 @@ export async function detectFormat(input: FileInput): Promise<FileFormat | null>
       if (byExt && (byExt === 'docx' || byExt === 'xlsx' || byExt === 'pptx' || byExt === 'epub')) {
         return byExt;
       }
+      const byZip = detectZipSubtype(head);
+      if (byZip) return byZip;
       return 'docx';
     }
     return byMagic;
