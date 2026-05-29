@@ -58,12 +58,7 @@ export type MetadataResult = {
   warnings: string[];
 };
 
-export type ScrubPreset =
-  | 'all'
-  | 'gps-only'
-  | 'personal-only'
-  | 'keep-technical'
-  | 'custom';
+export type ScrubPreset = 'all' | 'gps-only' | 'personal-only' | 'keep-technical' | 'custom';
 
 export type ScrubOptions = {
   preset?: ScrubPreset;

@@ -138,9 +138,7 @@ const TEXT_SENSITIVE = new Set([
   'XML:com.adobe.xmp',
 ]);
 
-async function parsePng(
-  bytes: Uint8Array,
-): Promise<{ groups: Record<string, MetadataField[]> }> {
+async function parsePng(bytes: Uint8Array): Promise<{ groups: Record<string, MetadataField[]> }> {
   const chunks = readChunks(bytes);
   const textFields: MetadataField[] = [];
   let exifGroup: MetadataField[] | undefined;
@@ -158,8 +156,7 @@ async function parsePng(
     } else if (c.type === 'tIME') {
       if (c.data.length === 7) {
         const year = (c.data[0]! << 8) | c.data[1]!;
-        const fmt = (n: number): string =>
-          n.toString().padStart(2, '0');
+        const fmt = (n: number): string => n.toString().padStart(2, '0');
         tIME = `${year}-${fmt(c.data[2]!)}-${fmt(c.data[3]!)}T${fmt(c.data[4]!)}:${fmt(c.data[5]!)}:${fmt(c.data[6]!)}Z`;
       }
     } else if (c.type === 'eXIf') {
@@ -167,22 +164,23 @@ async function parsePng(
       try {
         const exifrMod = await import('exifr');
         const exifr = (exifrMod as { default?: unknown }).default ?? exifrMod;
-        const parsed = (await (
-          exifr as {
-            parse: (
-              data: Uint8Array,
-              opts: unknown,
-            ) => Promise<Record<string, unknown> | undefined>;
-          }
-        ).parse(c.data, {
-          tiff: true,
-          ifd0: true,
-          exif: true,
-          gps: true,
-          mergeOutput: false,
-          translateKeys: true,
-          translateValues: true,
-        })) ?? {};
+        const parsed =
+          (await (
+            exifr as {
+              parse: (
+                data: Uint8Array,
+                opts: unknown,
+              ) => Promise<Record<string, unknown> | undefined>;
+            }
+          ).parse(c.data, {
+            tiff: true,
+            ifd0: true,
+            exif: true,
+            gps: true,
+            mergeOutput: false,
+            translateKeys: true,
+            translateValues: true,
+          })) ?? {};
         const fields: MetadataField[] = [];
         const ifd0 = (parsed.ifd0 ?? {}) as Record<string, unknown>;
         const ex = (parsed.exif ?? {}) as Record<string, unknown>;
@@ -208,17 +206,13 @@ async function parsePng(
 
 function stringifyValue(v: unknown): string | number | boolean | null {
   if (v === null || v === undefined) return null;
-  if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean')
-    return v;
+  if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return v;
   if (v instanceof Date) return v.toISOString();
   if (Array.isArray(v)) return v.map((x) => String(x ?? '')).join(', ');
   return String(v);
 }
 
-async function scrubPng(
-  bytes: Uint8Array,
-  options: ScrubOptions,
-): Promise<Uint8Array> {
+async function scrubPng(bytes: Uint8Array, options: ScrubOptions): Promise<Uint8Array> {
   const resolved = resolveScrub(options);
   const chunks = readChunks(bytes);
 
@@ -246,8 +240,7 @@ async function scrubPng(
       const keyword = kv?.keyword;
       const drop =
         resolved.remove.some((p) => p === 'PNG.*' || p === 'PNG') ||
-        (keyword !== undefined &&
-          resolved.remove.some((p) => p === `PNG.text.${keyword}`));
+        (keyword !== undefined && resolved.remove.some((p) => p === `PNG.text.${keyword}`));
       if (drop) continue;
       out.push(c);
       continue;

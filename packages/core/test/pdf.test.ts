@@ -45,10 +45,7 @@ describe('PDF format', () => {
 
   it('preserves Author with preset=gps-only (no-op on PDFs)', async () => {
     const data = await makePdf({ author: 'Anton' });
-    const scrubbed = await scrub(
-      { kind: 'bytes', data },
-      { preset: 'gps-only' },
-    );
+    const scrubbed = await scrub({ kind: 'bytes', data }, { preset: 'gps-only' });
     const reparsed = await parse({ kind: 'bytes', data: scrubbed });
     expect(reparsed.highlights.author).toBe('Anton');
   });

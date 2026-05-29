@@ -1,8 +1,6 @@
 import { writeUInt32BE } from '../../src/utils/bytes.js';
 
-const PNG_SIGNATURE = Uint8Array.from([
-  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
-]);
+const PNG_SIGNATURE = Uint8Array.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 // Minimal 1x1 grayscale PNG IHDR + IDAT + IEND
 // IHDR: width=1, height=1, depth=8, colorType=0 (gray), filter=0, interlace=0
@@ -13,8 +11,7 @@ const CRC_TABLE: Uint32Array = (() => {
   const t = new Uint32Array(256);
   for (let n = 0; n < 256; n += 1) {
     let c = n;
-    for (let k = 0; k < 8; k += 1)
-      c = (c & 1) !== 0 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    for (let k = 0; k < 8; k += 1) c = (c & 1) !== 0 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
     t[n] = c;
   }
   return t;
@@ -61,8 +58,14 @@ function makeTextChunk(keyword: string, value: string): Uint8Array {
 const IHDR = makeChunk(
   'IHDR',
   Uint8Array.from([
-    0x00, 0x00, 0x00, 0x01, // width
-    0x00, 0x00, 0x00, 0x01, // height
+    0x00,
+    0x00,
+    0x00,
+    0x01, // width
+    0x00,
+    0x00,
+    0x00,
+    0x01, // height
     0x08, // depth
     0x00, // color type (gray)
     0x00, // compression
@@ -73,9 +76,7 @@ const IHDR = makeChunk(
 
 const IDAT = makeChunk(
   'IDAT',
-  Uint8Array.from([
-    0x78, 0x9c, 0x62, 0x60, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01,
-  ]),
+  Uint8Array.from([0x78, 0x9c, 0x62, 0x60, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01]),
 );
 
 const IEND = makeChunk('IEND', new Uint8Array(0));

@@ -42,20 +42,17 @@ const APP_FIELDS = [
   'Revision',
 ];
 
-const CORE_SENSITIVE = new Set([
-  'creator',
-  'lastModifiedBy',
-  'title',
-  'subject',
-  'keywords',
-]);
+const CORE_SENSITIVE = new Set(['creator', 'lastModifiedBy', 'title', 'subject', 'keywords']);
 const APP_SENSITIVE = new Set(['Company', 'Manager']);
 
 function extractTags(xml: string, fields: string[]): Record<string, string> {
   const out: Record<string, string> = {};
   for (const f of fields) {
     // Look for <ns:field>value</ns:field> or <field>value</field>
-    const re = new RegExp(`<(?:\\w+:)?${escapeRegex(f)}[^>]*>([\\s\\S]*?)<\\/(?:\\w+:)?${escapeRegex(f)}>`, 'i');
+    const re = new RegExp(
+      `<(?:\\w+:)?${escapeRegex(f)}[^>]*>([\\s\\S]*?)<\\/(?:\\w+:)?${escapeRegex(f)}>`,
+      'i',
+    );
     const m = re.exec(xml);
     if (m && m[1] !== undefined) out[f] = decodeXmlEntities(m[1].trim());
   }
@@ -72,21 +69,16 @@ function decodeXmlEntities(s: string): string {
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
-    .replace(/&#(\d+);/g, (_m, d: string) =>
-      String.fromCodePoint(parseInt(d, 10)),
-    )
+    .replace(/&#(\d+);/g, (_m, d: string) => String.fromCodePoint(parseInt(d, 10)))
     .replace(/&amp;/g, '&');
 }
 
-async function parseDocx(
-  bytes: Uint8Array,
-): Promise<{ groups: Record<string, MetadataField[]> }> {
+async function parseDocx(bytes: Uint8Array): Promise<{ groups: Record<string, MetadataField[]> }> {
   const JSZip = await loadJsZip();
   const zip = await JSZip.loadAsync(bytes);
   const groups: Record<string, MetadataField[]> = {};
 
-  const coreXml =
-    (await zip.file('docProps/core.xml')?.async('string')) ?? null;
+  const coreXml = (await zip.file('docProps/core.xml')?.async('string')) ?? null;
   const appXml = (await zip.file('docProps/app.xml')?.async('string')) ?? null;
 
   if (coreXml) {
@@ -128,10 +120,7 @@ const EMPTY_APP_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <Manager></Manager>
 </Properties>`;
 
-async function scrubDocx(
-  bytes: Uint8Array,
-  options: ScrubOptions,
-): Promise<Uint8Array> {
+async function scrubDocx(bytes: Uint8Array, options: ScrubOptions): Promise<Uint8Array> {
   const resolved = resolveScrub(options);
   const JSZip = await loadJsZip();
   const zip = await JSZip.loadAsync(bytes);
@@ -155,12 +144,8 @@ async function scrubDocx(
   } else if (resolved.preset === 'custom') {
     // For custom we only wipe tags that match the remove list under DOCX.core.*
     // For simplicity, if any DOCX.core.* removal is requested, regenerate core.xml.
-    const wipeCore = resolved.remove.some((p) =>
-      p === 'DOCX.core.*' || p.startsWith('DOCX.core.'),
-    );
-    const wipeApp = resolved.remove.some((p) =>
-      p === 'DOCX.app.*' || p.startsWith('DOCX.app.'),
-    );
+    const wipeCore = resolved.remove.some((p) => p === 'DOCX.core.*' || p.startsWith('DOCX.core.'));
+    const wipeApp = resolved.remove.some((p) => p === 'DOCX.app.*' || p.startsWith('DOCX.app.'));
     if (wipeCore && zip.file('docProps/core.xml')) {
       zip.file('docProps/core.xml', EMPTY_CORE_XML);
     }
@@ -180,9 +165,7 @@ async function scrubDocx(
 export const docxParser: FormatParser = {
   format: 'docx',
   extensions: ['.docx'],
-  mimeTypes: [
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  ],
+  mimeTypes: ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
   matches: (b) => startsWith(b, [0x50, 0x4b, 0x03, 0x04]),
   parse: parseDocx,
   scrub: scrubDocx,

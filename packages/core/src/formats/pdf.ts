@@ -15,9 +15,7 @@ async function loadPdfLib(): Promise<typeof import('pdf-lib')> {
   return await import('pdf-lib');
 }
 
-async function parsePdf(
-  bytes: Uint8Array,
-): Promise<{ groups: Record<string, MetadataField[]> }> {
+async function parsePdf(bytes: Uint8Array): Promise<{ groups: Record<string, MetadataField[]> }> {
   const { PDFDocument } = await loadPdfLib();
   const doc = await PDFDocument.load(bytes, {
     updateMetadata: false,
@@ -26,10 +24,7 @@ async function parsePdf(
   const groups: Record<string, MetadataField[]> = {};
   const info: MetadataField[] = [];
 
-  const tryGet = (
-    name: string,
-    fn: () => string | undefined,
-  ): void => {
+  const tryGet = (name: string, fn: () => string | undefined): void => {
     try {
       const v = fn();
       if (v && String(v).trim() !== '') {
@@ -61,8 +56,7 @@ async function parsePdf(
   }
   try {
     const modified = doc.getModificationDate();
-    if (modified)
-      info.push({ key: 'ModDate', value: modified.toISOString() });
+    if (modified) info.push({ key: 'ModDate', value: modified.toISOString() });
   } catch {
     // ignore
   }
@@ -71,9 +65,7 @@ async function parsePdf(
 
   // Page count as a non-sensitive metric.
   try {
-    groups['PDF'] = [
-      { key: 'PageCount', value: doc.getPageCount() },
-    ];
+    groups['PDF'] = [{ key: 'PageCount', value: doc.getPageCount() }];
   } catch {
     // ignore
   }
@@ -81,10 +73,7 @@ async function parsePdf(
   return { groups };
 }
 
-async function scrubPdf(
-  bytes: Uint8Array,
-  options: ScrubOptions,
-): Promise<Uint8Array> {
+async function scrubPdf(bytes: Uint8Array, options: ScrubOptions): Promise<Uint8Array> {
   const resolved = resolveScrub(options);
   const { PDFDocument, PDFName } = await loadPdfLib();
   const doc = await PDFDocument.load(bytes, {

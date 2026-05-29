@@ -21,8 +21,7 @@ export async function makePdf(opts: PdfBuildOpts = {}): Promise<Uint8Array> {
   if (opts.creator !== undefined) doc.setCreator(opts.creator);
   if (opts.producer !== undefined) doc.setProducer(opts.producer);
   if (opts.creationDate !== undefined) doc.setCreationDate(opts.creationDate);
-  if (opts.modificationDate !== undefined)
-    doc.setModificationDate(opts.modificationDate);
+  if (opts.modificationDate !== undefined) doc.setModificationDate(opts.modificationDate);
   const bytes = await doc.save({ useObjectStreams: false });
   return new Uint8Array(bytes);
 }

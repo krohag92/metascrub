@@ -1,10 +1,7 @@
 import type { FileInput, MetadataDiff, MetadataField } from './types.js';
 import { parse } from './parse.js';
 
-export async function compare(
-  a: FileInput,
-  b: FileInput,
-): Promise<MetadataDiff> {
+export async function compare(a: FileInput, b: FileInput): Promise<MetadataDiff> {
   const [resA, resB] = await Promise.all([parse(a), parse(b)]);
 
   const flatten = (groups: Record<string, MetadataField[]>): Map<string, MetadataField> => {

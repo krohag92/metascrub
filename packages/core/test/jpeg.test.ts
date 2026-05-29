@@ -34,9 +34,7 @@ describe('JPEG format', () => {
     expect(result.highlights.gps).toBeDefined();
     expect(result.highlights.gps?.lat).toBeCloseTo(40.7128, 2);
     expect(result.highlights.gps?.lon).toBeCloseTo(-74.006, 2);
-    expect(result.warnings.some((w) => w.toLowerCase().includes('gps'))).toBe(
-      true,
-    );
+    expect(result.warnings.some((w) => w.toLowerCase().includes('gps'))).toBe(true);
   });
 
   it('parses serial number and flags it as sensitive', async () => {
@@ -45,9 +43,7 @@ describe('JPEG format', () => {
       serialNumber: '123456789',
     });
     const result = await parse({ kind: 'bytes', data });
-    expect(
-      result.warnings.some((w) => w.toLowerCase().includes('serial')),
-    ).toBe(true);
+    expect(result.warnings.some((w) => w.toLowerCase().includes('serial'))).toBe(true);
   });
 
   it('round-trip: scrub with preset=all removes EXIF identifiers', async () => {
@@ -92,14 +88,11 @@ describe('JPEG format', () => {
       gps: { lat: 1, lon: 2 },
       xmpPacket,
     });
-    const scrubbed = await scrub(
-      { kind: 'bytes', data },
-      { preset: 'gps-only' },
-    );
+    const scrubbed = await scrub({ kind: 'bytes', data }, { preset: 'gps-only' });
     // XMP segment header bytes should still appear.
     const xmpHeader = Uint8Array.from([
-      0x68, 0x74, 0x74, 0x70, 0x3a, 0x2f, 0x2f, 0x6e, 0x73, 0x2e, 0x61, 0x64,
-      0x6f, 0x62, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+      0x68, 0x74, 0x74, 0x70, 0x3a, 0x2f, 0x2f, 0x6e, 0x73, 0x2e, 0x61, 0x64, 0x6f, 0x62, 0x65,
+      0x2e, 0x63, 0x6f, 0x6d,
     ]);
     let found = false;
     for (let i = 0; i + xmpHeader.length <= scrubbed.length; i += 1) {

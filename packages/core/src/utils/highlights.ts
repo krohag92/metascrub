@@ -1,16 +1,8 @@
-import type {
-  MetadataField,
-  MetadataHighlights,
-  MetadataResult,
-} from '../types.js';
+import type { MetadataField, MetadataHighlights, MetadataResult } from '../types.js';
 
 type Groups = Record<string, MetadataField[]>;
 
-function findField(
-  groups: Groups,
-  group: string,
-  key: string,
-): MetadataField | undefined {
+function findField(groups: Groups, group: string, key: string): MetadataField | undefined {
   const fields = groups[group];
   if (!fields) return undefined;
   return fields.find((f) => f.key === key);
@@ -67,9 +59,7 @@ export function buildHighlights(groups: Groups): {
     toNumber(findField(groups, 'EXIF', 'GPSAltitude')?.value);
   if (lat !== undefined && lon !== undefined) {
     highlights.gps = { lat, lon, ...(alt !== undefined ? { alt } : {}) };
-    warnings.push(
-      `GPS coordinates found (${lat.toFixed(4)}, ${lon.toFixed(4)})`,
-    );
+    warnings.push(`GPS coordinates found (${lat.toFixed(4)}, ${lon.toFixed(4)})`);
   }
 
   // Captured timestamp
@@ -123,15 +113,10 @@ export function buildHighlights(groups: Groups): {
   }
 
   // Last modified by
-  const lastModifiedBy = toString(
-    findField(groups, 'DOCX.core', 'lastModifiedBy')?.value,
-  );
+  const lastModifiedBy = toString(findField(groups, 'DOCX.core', 'lastModifiedBy')?.value);
   if (lastModifiedBy) {
     highlights.lastModifiedBy = lastModifiedBy;
-    if (
-      highlights.author &&
-      lastModifiedBy.toLowerCase() !== highlights.author.toLowerCase()
-    ) {
+    if (highlights.author && lastModifiedBy.toLowerCase() !== highlights.author.toLowerCase()) {
       warnings.push(`File was edited by another user (${lastModifiedBy})`);
     }
   }

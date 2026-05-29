@@ -8,9 +8,7 @@ import { listFormats } from './formats/index.js';
  *
  * For path inputs, reads only the first 4 KiB to keep detection cheap.
  */
-export async function detectFormat(
-  input: FileInput,
-): Promise<FileFormat | null> {
+export async function detectFormat(input: FileInput): Promise<FileFormat | null> {
   const { head, filename } = await readHead(input);
 
   // Magic-number first (more reliable than extension).
@@ -19,13 +17,7 @@ export async function detectFormat(
     // ZIP-based formats need disambiguation by extension or content sniffing.
     if (byMagic === 'docx') {
       const byExt = detectByExtension(filename);
-      if (
-        byExt &&
-        (byExt === 'docx' ||
-          byExt === 'xlsx' ||
-          byExt === 'pptx' ||
-          byExt === 'epub')
-      ) {
+      if (byExt && (byExt === 'docx' || byExt === 'xlsx' || byExt === 'pptx' || byExt === 'epub')) {
         return byExt;
       }
       return 'docx';
@@ -47,9 +39,7 @@ export function supportedFormats(): FileFormat[] {
   return listFormats();
 }
 
-async function readHead(
-  input: FileInput,
-): Promise<{ head: Uint8Array; filename?: string }> {
+async function readHead(input: FileInput): Promise<{ head: Uint8Array; filename?: string }> {
   if (input.kind === 'bytes') {
     const slice = input.data.subarray(0, Math.min(input.data.length, 4096));
     const result: { head: Uint8Array; filename?: string } = { head: slice };
@@ -76,13 +66,7 @@ function looksLikeSvg(head: Uint8Array): boolean {
   if (head.length < 5) return false;
   // strip UTF-8 BOM
   let start = 0;
-  if (
-    head.length >= 3 &&
-    head[0] === 0xef &&
-    head[1] === 0xbb &&
-    head[2] === 0xbf
-  )
-    start = 3;
+  if (head.length >= 3 && head[0] === 0xef && head[1] === 0xbb && head[2] === 0xbf) start = 3;
   if (startsWith(head.subarray(start), [0x3c, 0x73, 0x76, 0x67])) return true;
   // tolerate leading whitespace + optional XML prolog before <svg
   const text = new TextDecoder('utf-8', { fatal: false }).decode(

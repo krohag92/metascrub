@@ -5,9 +5,7 @@ import { makeDocx } from './helpers/build-docx.js';
 describe('DOCX format', () => {
   it('detects DOCX by magic + extension', async () => {
     const data = await makeDocx();
-    expect(
-      await detectFormat({ kind: 'bytes', data, filename: 'test.docx' }),
-    ).toBe('docx');
+    expect(await detectFormat({ kind: 'bytes', data, filename: 'test.docx' })).toBe('docx');
   });
 
   it('parses core and app metadata', async () => {
@@ -26,12 +24,8 @@ describe('DOCX format', () => {
       data,
       filename: 'memo.docx',
     });
-    const core = new Map(
-      (result.groups['DOCX.core'] ?? []).map((f) => [f.key, f.value]),
-    );
-    const app = new Map(
-      (result.groups['DOCX.app'] ?? []).map((f) => [f.key, f.value]),
-    );
+    const core = new Map((result.groups['DOCX.core'] ?? []).map((f) => [f.key, f.value]));
+    const app = new Map((result.groups['DOCX.app'] ?? []).map((f) => [f.key, f.value]));
     expect(core.get('creator')).toBe('Anton');
     expect(core.get('lastModifiedBy')).toBe('EditorBob');
     expect(core.get('title')).toBe('Confidential Memo');
@@ -40,11 +34,9 @@ describe('DOCX format', () => {
     expect(app.get('Manager')).toBe('Manager Jane');
     expect(result.highlights.author).toBe('Anton');
     expect(result.highlights.lastModifiedBy).toBe('EditorBob');
-    expect(
-      result.warnings.some((w) =>
-        w.toLowerCase().includes('edited by another user'),
-      ),
-    ).toBe(true);
+    expect(result.warnings.some((w) => w.toLowerCase().includes('edited by another user'))).toBe(
+      true,
+    );
   });
 
   it('round-trip: scrub with preset=all empties creator/lastModifiedBy', async () => {
@@ -60,9 +52,7 @@ describe('DOCX format', () => {
       data: scrubbed,
       filename: 'memo.docx',
     });
-    const core = new Map(
-      (reparsed.groups['DOCX.core'] ?? []).map((f) => [f.key, f.value]),
-    );
+    const core = new Map((reparsed.groups['DOCX.core'] ?? []).map((f) => [f.key, f.value]));
     expect(core.get('creator') ?? '').toBe('');
     expect(core.get('lastModifiedBy') ?? '').toBe('');
     expect(reparsed.highlights.author).toBeUndefined();

@@ -8,9 +8,7 @@ import { getParser } from './formats/index.js';
 export async function parse(input: FileInput): Promise<MetadataResult> {
   const { data, filename } = await readInput(input);
   const format = await detectFormat(
-    filename
-      ? { kind: 'bytes', data, filename }
-      : { kind: 'bytes', data },
+    filename ? { kind: 'bytes', data, filename } : { kind: 'bytes', data },
   );
   if (!format) {
     throw new MetaScrubError(
@@ -20,11 +18,9 @@ export async function parse(input: FileInput): Promise<MetadataResult> {
   }
   const parser = getParser(format);
   if (!parser) {
-    throw new MetaScrubError(
-      'UNSUPPORTED_FORMAT',
-      `Format "${format}" is not yet supported.`,
-      { format },
-    );
+    throw new MetaScrubError('UNSUPPORTED_FORMAT', `Format "${format}" is not yet supported.`, {
+      format,
+    });
   }
   let parsed;
   try {

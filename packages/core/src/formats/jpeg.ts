@@ -13,9 +13,8 @@ const MARKER_COM = 0xfe;
 
 const EXIF_HEADER = [0x45, 0x78, 0x69, 0x66, 0x00, 0x00]; // "Exif\0\0"
 const XMP_HEADER = [
-  0x68, 0x74, 0x74, 0x70, 0x3a, 0x2f, 0x2f, 0x6e, 0x73, 0x2e, 0x61, 0x64, 0x6f,
-  0x62, 0x65, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x61, 0x70, 0x2f, 0x31, 0x2e,
-  0x30, 0x2f, 0x00,
+  0x68, 0x74, 0x74, 0x70, 0x3a, 0x2f, 0x2f, 0x6e, 0x73, 0x2e, 0x61, 0x64, 0x6f, 0x62, 0x65, 0x2e,
+  0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x61, 0x70, 0x2f, 0x31, 0x2e, 0x30, 0x2f, 0x00,
 ]; // "http://ns.adobe.com/xap/1.0/\0"
 
 type Segment = {
@@ -196,21 +195,13 @@ function parseField(
 ): MetadataField {
   let normalized: string | number | boolean | null;
   if (value === null || value === undefined) normalized = null;
-  else if (
-    typeof value === 'string' ||
-    typeof value === 'number' ||
-    typeof value === 'boolean'
-  ) {
+  else if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
     normalized = value;
   } else if (value instanceof Date) normalized = value.toISOString();
   else if (Array.isArray(value))
-    normalized = value
-      .map((v) => (v === null || v === undefined ? '' : String(v)))
-      .join(', ');
-  else if (value instanceof Uint8Array)
-    normalized = `<${value.length} bytes>`;
-  else if (typeof value === 'object')
-    normalized = JSON.stringify(value);
+    normalized = value.map((v) => (v === null || v === undefined ? '' : String(v))).join(', ');
+  else if (value instanceof Uint8Array) normalized = `<${value.length} bytes>`;
+  else if (typeof value === 'object') normalized = JSON.stringify(value);
   else normalized = String(value);
 
   const field: MetadataField = { key, value: normalized, raw: value };
@@ -259,36 +250,32 @@ const GPS_KEYS = new Set([
   'GPSProcessingMethod',
 ]);
 
-async function parseJpeg(
-  bytes: Uint8Array,
-): Promise<{ groups: Record<string, MetadataField[]> }> {
+async function parseJpeg(bytes: Uint8Array): Promise<{ groups: Record<string, MetadataField[]> }> {
   const groups: Record<string, MetadataField[]> = {};
 
   const exifrMod = await import('exifr');
   const exifr = (exifrMod as { default?: unknown }).default ?? exifrMod;
-  const parsed: Record<string, unknown> = (await (
-    exifr as {
-      parse: (
-        data: Uint8Array,
-        opts: unknown,
-      ) => Promise<Record<string, unknown> | undefined>;
-    }
-  ).parse(bytes, {
-    tiff: true,
-    ifd0: true,
-    exif: true,
-    gps: true,
-    iptc: true,
-    xmp: true,
-    icc: false,
-    jfif: true,
-    interop: false,
-    mergeOutput: false,
-    sanitize: true,
-    reviveValues: true,
-    translateKeys: true,
-    translateValues: false,
-  })) ?? {};
+  const parsed: Record<string, unknown> =
+    (await (
+      exifr as {
+        parse: (data: Uint8Array, opts: unknown) => Promise<Record<string, unknown> | undefined>;
+      }
+    ).parse(bytes, {
+      tiff: true,
+      ifd0: true,
+      exif: true,
+      gps: true,
+      iptc: true,
+      xmp: true,
+      icc: false,
+      jfif: true,
+      interop: false,
+      mergeOutput: false,
+      sanitize: true,
+      reviveValues: true,
+      translateKeys: true,
+      translateValues: false,
+    })) ?? {};
 
   const ifd0 = (parsed.ifd0 ?? {}) as Record<string, unknown>;
   const exif = (parsed.exif ?? {}) as Record<string, unknown>;
@@ -336,10 +323,7 @@ async function parseJpeg(
   return { groups };
 }
 
-async function scrubJpeg(
-  bytes: Uint8Array,
-  options: ScrubOptions,
-): Promise<Uint8Array> {
+async function scrubJpeg(bytes: Uint8Array, options: ScrubOptions): Promise<Uint8Array> {
   const resolved = resolveScrub(options);
   const { segments, imageData } = splitJpeg(bytes);
 
@@ -411,11 +395,7 @@ async function scrubJpeg(
   return concatBytes(out);
 }
 
-function shouldDropExif(
-  preset: string,
-  remove: string[],
-  keep: string[],
-): boolean {
+function shouldDropExif(preset: string, remove: string[], keep: string[]): boolean {
   void keep;
   if (preset === 'all' || preset === 'personal-only') return true;
   if (preset === 'keep-technical') {
@@ -427,16 +407,14 @@ function shouldDropExif(
   if (preset === 'gps-only') return false; // EXIF kept; GPS sub-block handled by exifr-aware paths in future
   if (preset === 'custom') {
     // remove only if EXIF.* is in remove and not keep
-    return remove.some((p) => p === 'EXIF.*' || p === 'EXIF') && !keep.some((p) => p.startsWith('EXIF'));
+    return (
+      remove.some((p) => p === 'EXIF.*' || p === 'EXIF') && !keep.some((p) => p.startsWith('EXIF'))
+    );
   }
   return false;
 }
 
-function shouldDropXmp(
-  preset: string,
-  remove: string[],
-  keep: string[],
-): boolean {
+function shouldDropXmp(preset: string, remove: string[], keep: string[]): boolean {
   if (preset === 'all' || preset === 'personal-only') return true;
   if (preset === 'keep-technical') return true;
   // gps-only: keep XMP segment intact (we'd need an RDF parser to strip
@@ -444,8 +422,7 @@ function shouldDropXmp(
   if (preset === 'gps-only') return false;
   if (preset === 'custom') {
     return (
-      remove.some((p) => p === 'XMP.*' || p === 'XMP') &&
-      !keep.some((p) => p.startsWith('XMP'))
+      remove.some((p) => p === 'XMP.*' || p === 'XMP') && !keep.some((p) => p.startsWith('XMP'))
     );
   }
   return false;
@@ -460,11 +437,7 @@ function shouldDropIptc(preset: string, remove: string[]): boolean {
   return false;
 }
 
-function keepOrientation(
-  preset: string,
-  keep: string[],
-  remove: string[],
-): boolean {
+function keepOrientation(preset: string, keep: string[], remove: string[]): boolean {
   void keep;
   // Spec: always preserve orientation by default.
   if (remove.includes('EXIF.Orientation')) return false;

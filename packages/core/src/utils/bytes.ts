@@ -12,10 +12,7 @@ export async function readInput(
   }
   if (input.kind === 'path') {
     if (!isNode) {
-      throw new MetaScrubError(
-        'PARSE_ERROR',
-        'Reading file paths is only supported in Node.js.',
-      );
+      throw new MetaScrubError('PARSE_ERROR', 'Reading file paths is only supported in Node.js.');
     }
     const fs = await import('node:fs/promises');
     const path = await import('node:path');
@@ -48,11 +45,7 @@ export function startsWith(bytes: Uint8Array, signature: number[]): boolean {
   return true;
 }
 
-export function byteEquals(
-  bytes: Uint8Array,
-  offset: number,
-  signature: number[],
-): boolean {
+export function byteEquals(bytes: Uint8Array, offset: number, signature: number[]): boolean {
   if (bytes.length < offset + signature.length) return false;
   for (let i = 0; i < signature.length; i += 1) {
     if (bytes[offset + i] !== signature[i]) return false;
@@ -74,22 +67,14 @@ export function readUInt16BE(bytes: Uint8Array, offset: number): number {
   return (b0 << 8) | b1;
 }
 
-export function writeUInt32BE(
-  bytes: Uint8Array,
-  offset: number,
-  value: number,
-): void {
+export function writeUInt32BE(bytes: Uint8Array, offset: number, value: number): void {
   bytes[offset] = (value >>> 24) & 0xff;
   bytes[offset + 1] = (value >>> 16) & 0xff;
   bytes[offset + 2] = (value >>> 8) & 0xff;
   bytes[offset + 3] = value & 0xff;
 }
 
-export function writeUInt16BE(
-  bytes: Uint8Array,
-  offset: number,
-  value: number,
-): void {
+export function writeUInt16BE(bytes: Uint8Array, offset: number, value: number): void {
   bytes[offset] = (value >>> 8) & 0xff;
   bytes[offset + 1] = value & 0xff;
 }
