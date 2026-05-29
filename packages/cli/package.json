@@ -1,0 +1,54 @@
+{
+  "name": "metascrub",
+  "version": "0.1.0",
+  "description": "View and strip metadata from images, videos, audio, and documents. CLI for the MetaScrub toolkit at metadatafinder.com.",
+  "license": "MIT",
+  "homepage": "https://metadatafinder.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metascrub/metascrub",
+    "directory": "packages/cli"
+  },
+  "type": "module",
+  "bin": {
+    "metascrub": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo"
+  },
+  "keywords": [
+    "metadata",
+    "exif",
+    "scrub",
+    "strip",
+    "cli",
+    "privacy",
+    "pdf",
+    "docx",
+    "image",
+    "photo",
+    "metadatafinder"
+  ],
+  "dependencies": {
+    "@metascrub/core": "workspace:*",
+    "cli-progress": "^3.12.0",
+    "commander": "^12.1.0",
+    "kleur": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/cli-progress": "^3.11.6",
+    "@types/node": "^22.10.0",
+    "execa": "^9.5.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}
