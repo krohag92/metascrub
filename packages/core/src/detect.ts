@@ -24,6 +24,34 @@ export async function detectFormat(input: FileInput): Promise<FileFormat | null>
       if (byZip) return byZip;
       return 'docx';
     }
+    // EBML container — disambiguate Matroska vs WebM by DocType.
+    if (byMagic === 'mkv') {
+      const doctype = readEbmlDocType(head);
+      if (doctype === 'webm') return 'webm';
+      if (doctype === 'matroska') return 'mkv';
+      const byExt = detectByExtension(filename);
+      if (byExt === 'webm') return 'webm';
+      return 'mkv';
+    }
+    // Generic TIFF magic also matches RAW formats (NEF/ARW/DNG). Prefer the
+    // extension if it points to a specific RAW dialect.
+    if (byMagic === 'tiff') {
+      const byExt = detectByExtension(filename);
+      if (
+        byExt === 'raw-nef' ||
+        byExt === 'raw-arw' ||
+        byExt === 'raw-dng' ||
+        byExt === 'raw-cr2'
+      ) {
+        return byExt;
+      }
+    }
+    // ISOBMFF brand `mp4` may actually be an M4A audio container — prefer
+    // the extension when it points to audio.
+    if (byMagic === 'mp4') {
+      const byExt = detectByExtension(filename);
+      if (byExt === 'm4a') return 'm4a';
+    }
     return byMagic;
   }
 
@@ -62,6 +90,37 @@ async function readHead(input: FileInput): Promise<{ head: Uint8Array; filename?
   } finally {
     await fh.close();
   }
+}
+
+/**
+ * Best-effort EBML DocType extraction. Scans the first 4 KiB for the DocType
+ * element ID (0x4282) followed by a VINT size and the ASCII payload.
+ */
+function readEbmlDocType(head: Uint8Array): string | null {
+  for (let i = 0; i + 4 < head.length; i += 1) {
+    if (head[i] === 0x42 && head[i + 1] === 0x82) {
+      const sizeByte = head[i + 2] ?? 0;
+      if (sizeByte === 0) continue;
+      let sizeLen = 0;
+      for (let bit = 7; bit >= 0; bit -= 1) {
+        if ((sizeByte & (1 << bit)) !== 0) {
+          sizeLen = 8 - bit;
+          break;
+        }
+      }
+      if (sizeLen < 1 || sizeLen > 4) continue;
+      let payloadLen = sizeByte & ((1 << (8 - sizeLen)) - 1);
+      for (let j = 1; j < sizeLen; j += 1) payloadLen = payloadLen * 256 + (head[i + 2 + j] ?? 0);
+      const payloadStart = i + 2 + sizeLen;
+      if (payloadStart + payloadLen > head.length) continue;
+      let len = payloadLen;
+      while (len > 0 && head[payloadStart + len - 1] === 0) len -= 1;
+      return new TextDecoder('utf-8', { fatal: false }).decode(
+        head.subarray(payloadStart, payloadStart + len),
+      );
+    }
+  }
+  return null;
 }
 
 function looksLikeSvg(head: Uint8Array): boolean {
