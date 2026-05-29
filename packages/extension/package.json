@@ -1,0 +1,56 @@
+{
+  "name": "@metascrub/extension",
+  "version": "0.1.0",
+  "description": "Browser extension for MetaScrub — view and strip metadata from any file. Powered by metadatafinder.com.",
+  "license": "MIT",
+  "homepage": "https://metadatafinder.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metascrub/metascrub",
+    "directory": "packages/extension"
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "build:firefox": "vite build --config vite.config.firefox.ts",
+    "zip": "node scripts/zip.mjs dist dist.zip",
+    "zip:firefox": "node scripts/zip.mjs dist-firefox dist-firefox.zip",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist dist-firefox dist.zip dist-firefox.zip .turbo"
+  },
+  "keywords": [
+    "metadata",
+    "exif",
+    "gps",
+    "privacy",
+    "scrub",
+    "strip",
+    "browser-extension",
+    "chrome-extension",
+    "firefox-extension",
+    "metadatafinder"
+  ],
+  "dependencies": {
+    "@metascrub/core": "workspace:*",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.4.0",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/chrome": "^0.0.325",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "@tailwindcss/vite": "^4.3.0",
+    "jsdom": "^29.1.1",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.7.0",
+    "vite": "^8.0.14",
+    "vitest": "^2.1.0"
+  }
+}
