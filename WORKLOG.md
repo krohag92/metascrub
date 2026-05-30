@@ -5,6 +5,48 @@
 
 ---
 
+## 2026-05-30 — Session 7: Phase 7 (Content batch 2 + Distribution prep)
+
+**Goal**: 4 more SEO posts + cross-posts + launch copy + every distribution-listing draft ready for Anton to submit through each platform's web form.
+
+**Work done**
+
+- Parallel `docs-writer` agents: Stream A (content batch 2 + launch) and Stream B (distribution listings + awesome-lists). Both touched `content/README.md` — merged the two indexes by taking Stream A's blog/cross-post/launch sections and appending Stream B's distribution section.
+- Stream A: 4 long-form posts (~6,900 words), 12 cross-post variants (Dev.to/Hashnode/Medium per post), `content/launch/` with Product Hunt + Show HN copy.
+  - 05 forensics-leaked-documents — Iraq dossier + Sony hack + legal discovery use cases.
+  - 06 oss-metadata-tools-compared — honest ExifTool / MAT2 / MetaScrub comparison.
+  - 07 photographer-bulk-cleaning-workflow — pre-delivery batch flow with CSV report column names.
+  - 08 journalist-protect-sources — newsroom OPSEC, SecureDrop reference, DOJ redaction failure.
+- Stream B: `content/distribution/` with 18 files — 5 founder/company profiles (Indie Hackers, Crunchbase, SaaSHub, F6S, AlternativeTo) + 12 awesome-list submission texts + `distribution/README.md` as the submission queue.
+- Each awesome-list submission file ships with three sections: target list URL, the literal markdown line to add (matching that list's existing format), and a PR title + body for Anton's pull request.
+
+**Phase 7 quality gate**
+
+- [x] 4 new long-form posts (1,400-2,400 words each).
+- [x] 12 new cross-posts with `canonical: https://metadatafinder.com/blog/<slug>` frontmatter.
+- [x] Launch folder has 4 files (PH launch, PH screenshots plan, Show HN post, Show HN comments).
+- [x] 5 founder/company profile drafts.
+- [x] 12 awesome-list submission drafts with explicit submission timing (`ready to submit` vs `submit after Chrome Store approval` etc.).
+- [x] Every long-form file has ≥ 3 metadatafinder.com links.
+- [x] `content/README.md` consolidated index reflects all 8 posts + 24 cross-posts + 4 launch files + 18 distribution files + Phase 5 entries (press kit, legal, substack) — no Phase 5 entries dropped.
+- [x] Prettier-clean.
+- [ ] 16 new `[verify: ...]` placeholders need Anton's fact-check pass before publishing.
+
+**Project-wide test count after Phase 7**: unchanged at **487 tests** (Phase 7 was content-only, no code).
+
+**Decisions worth remembering**
+
+- Honest competitive positioning in 06-oss-metadata-tools-compared: ExifTool is the gold standard for parse depth (CLI-only Perl), MAT2 is best for batch stripping in Linux pipelines, MetaScrub's edge is multi-platform distribution + integrated view+scrub UX. No competitor-bashing — comparison reads like a real "help me choose" guide.
+- Awesome-list submissions have an explicit timing column. `awesome-cli-apps` / `awesome-privacy` / `awesome-osint` can ship the day NPM is published; the rest are gated on store approvals (Chrome / VS Code Marketplace / Raycast Store / Figma Community / Obsidian plugin review / Docker Hub publish). This sequencing matters because submitting to `awesome-vscode` before the Marketplace listing exists looks spammy.
+- The Show HN copy explicitly tells Anton "adapt; do not copy-paste verbatim" — Show HN comment threads detect templated answers and downvote them.
+- 16 verify placeholders is fine — they're honest hedges on specific historical details (Iraq dossier al-Marashi attribution, Sony hack metadata reports, DOJ Roger Clemens redaction failure, FPF/SecureDrop URL, Anton's GitHub handle, Chrome Web Store extension ID — etc.). Anton resolves them with a focused 30-min pass.
+
+**Status**: Phase 7 code/copy-complete. Anton approval required before: publishing blog posts to metadatafinder.com, posting cross-posts, posting on Product Hunt / Show HN, opening awesome-list PRs, submitting founder profiles.
+
+**Next session entry point**: Phase 8 — Mobile apps (iOS + Android via Capacitor). LAST phase per roadmap. Sequential: `mobile-developer` scaffolds Capacitor 6 project, reuses extension popup UI, builds bottom tab nav + file picker + share extension (iOS Swift target) + Android Share Intent. Privacy nutrition label + Data Safety form drafts. Local builds + signing instructions for Anton.
+
+---
+
 ## 2026-05-30 — Session 6: Phase 6 (WordPress + HF Space polish)
 
 **Goal**: WordPress plugin submission-ready + Hugging Face Space polished.
