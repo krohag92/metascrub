@@ -5,6 +5,50 @@
 
 ---
 
+## 2026-05-30 — Session 5: Phase 5 (Desktop app + Content batch)
+
+**Goal**: Tauri desktop ready for build on each platform + first SEO content published.
+
+**Work done**
+
+- Parallel agents: `desktop-developer` (Tauri app) + `docs-writer` (content). Both merged with `--no-ff` for traceability; no file conflicts (separate trees).
+- Desktop (`packages/desktop/`): Tauri 2 scaffold with React UI. `src-tauri/Cargo.toml` + `tauri.conf.json` declaring bundle targets `app/dmg/msi/deb/appimage`, identifier `com.metadatafinder.metascrub.desktop`. `src-tauri/src/lib.rs` exposes 5 IPC commands (read_file_bytes / write_file_bytes / list_dir / pick_files / open_url). React three-pane UI (FileList / MetadataView / ScrubPanel / BatchProgress / WarningBadge / RecentFiles) with `@tauri-apps/plugin-store` for recent files. Native integrations: macOS NSServices array in tauri.conf.json (Finder right-click "Scrub metadata with MetaScrub"); Windows `wix/registry.wxs` fragment for HKCR\*\shell\MetaScrub; Linux `assets/metascrub.desktop` with MIME types for all 25 formats; Flathub manifest at `flathub/com.metadatafinder.metascrub.desktop.json`. Auto-update plugin points at metadatafinder.com (placeholder pubkey, flagged TODO). 41 tests passing.
+- Content (`content/`): ~20,000 words across 25 files.
+  - 4 long-form posts (1,600-2,000 words each) — what-is-exif-data / remove-gps-from-photos / strip-pdf-metadata / word-document-metadata. 40 backlinks to https://metadatafinder.com across them.
+  - 12 cross-post variants (Dev.to / Hashnode / Medium per post), each with `canonical: https://metadatafinder.com/blog/<slug>` so search engines credit the main domain.
+  - Substack launch post in Anton's voice (building-in-public).
+  - Press kit: 50/150/300-word boilerplate, founder bio variants, 12 tagline one-liners, MetaScrub-at-a-glance stats sheet, embargoable press release template.
+  - Extension privacy policy (`content/legal/extension-privacy-policy.md`) covering the same content used on the Tauri desktop.
+  - `content/README.md` doubles as Anton's review queue with a status column per file.
+  - 13 `[verify: ...]` placeholders flag specific historical incidents (Vice/McAfee EXIF 2012, Iraq dossier al-Marashi metadata, iOS Shortcuts action name) for Anton to fact-check before publishing.
+
+**Phase 5 quality gate**
+
+- [x] Desktop builds clean on the frontend side (`pnpm build:web`); `tauri build` requires Rust toolchain + per-OS SDKs — defer to Anton's local boxes.
+- [x] All UI components have vitest coverage (41 tests).
+- [x] TS typecheck clean across 9 TS packages.
+- [x] 4 blog posts ready for Anton's review (each links metadatafinder.com 3+ times).
+- [x] Cross-posts have canonical URLs pointing back to the main domain.
+- [x] Press kit complete.
+- [x] Privacy policy complete (reusable for desktop too).
+- [x] No telemetry / analytics in either workstream.
+- [ ] eslint still not wired (carried forward).
+
+**Project-wide test count after Phase 5**: 80 core + 7 cli + 24 extension + 15 vscode + 15 obsidian + 31 raycast + 9 n8n + 12 figma + 16 docker-api + 13 huggingface + 41 desktop + 142 python = **405 tests passing**.
+
+**Decisions worth remembering**
+
+- Tauri's `bundle.targets` ships all four installer formats (`dmg`/`msi`/`deb`/`appimage`) from a single config — Anton runs `tauri build` on the matching OS to get each artifact. No CI matrix yet; that's Phase 7.
+- Cross-post canonical URLs: every Dev.to / Hashnode / Medium variant has `canonical: https://metadatafinder.com/blog/<slug>` at the top. This is the SEO-correct way to cross-post — Google credits metadatafinder.com instead of dev.to.
+- The `[verify: ...]` placeholders are honest hedges. Better to flag than fabricate. Anton will resolve them with a 10-minute fact-check pass.
+- Same privacy policy file works for the extension AND the Tauri desktop — documented in the file header. Saves writing two near-identical pages.
+
+**Status**: Phase 5 code-complete. Anton approval required before: publishing blog posts to metadatafinder.com, posting cross-posts, posting the Substack launch, building Tauri installers, Mac App Store / Microsoft Store submissions.
+
+**Next session entry point**: Phase 6 — WordPress plugin + Hugging Face Space polish. Sequential: `wordpress-developer` first (PHP plugin with native JPEG/PNG/PDF scrubber, wp_handle_upload hook, bulk cleaner admin page, settings page, GPL-2.0+ license, readme.txt in WP format); then polish the HF Space (already shipped in Phase 4 — minor enhancements: better Gradio UI, README badges, a small "Try the live tool" CTA).
+
+---
+
 ## 2026-05-30 — Session 4: Phase 4 (Developer integrations)
 
 **Goal**: Six wrappers ready for submission — VS Code, Obsidian, Raycast, n8n, Figma, Docker (CLI + API images), Hugging Face Space.
