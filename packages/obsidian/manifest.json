@@ -1,0 +1,11 @@
+{
+  "id": "metascrub",
+  "name": "MetaScrub",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "View and scrub metadata from attachments in your vault. Powered by metadatafinder.com.",
+  "author": "metadatafinder.com",
+  "authorUrl": "https://metadatafinder.com",
+  "fundingUrl": "https://metadatafinder.com",
+  "isDesktopOnly": false
+}
