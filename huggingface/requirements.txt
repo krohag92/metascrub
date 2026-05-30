@@ -1,9 +1,12 @@
 gradio==4.44.0
 huggingface_hub>=0.19,<0.24
-# Local workspace install. When metascrub is published to PyPI, replace the
-# line below with:  metascrub>=0.1
-metascrub @ file:./python
-# Transitive deps already pulled by metascrub, listed here for explicitness:
+# `metascrub` is installed separately so this requirements.txt works in
+# every context:
+#   - Live HF Space: `pip install metascrub>=0.1` (after PyPI publish).
+#   - Local dev: `pip install -e ../python` from this folder.
+#   - CI parity tests: the monorepo CI installs the workspace package.
+# pip's `file:` URL is resolved against the install CWD, not against this
+# file, so hard-coding it would break depending on where pip is invoked.
 Pillow>=10.0
 piexif>=1.1
 pypdf>=4.0
