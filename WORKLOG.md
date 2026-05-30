@@ -5,6 +5,46 @@
 
 ---
 
+## 2026-05-30 — Session 4: Phase 4 (Developer integrations)
+
+**Goal**: Six wrappers ready for submission — VS Code, Obsidian, Raycast, n8n, Figma, Docker (CLI + API images), Hugging Face Space.
+
+**Work done**
+
+- Launched 5 parallel `integrations-developer` agents in isolated worktrees for the plugin batch (VS Code, Obsidian, Raycast, n8n, Figma); then 1 sequential `docker-developer`; then 1 sequential `python-developer` for the HF Space. Each landed independently because they touch separate top-level directories.
+- VS Code (`packages/vscode/`): `metascrub.view` + `metascrub.scrub` commands wired into explorer context (15 supported extensions), `MetadataPanel` WebView with proper CSP + warnings, esbuild bundle 11.7 KB. 15 tests.
+- Obsidian (`packages/obsidian/`): `metascrub:scan-attachments` command + ribbon + status bar; pure scanner module testable without Obsidian runtime; file-menu items "View metadata" / "Scrub metadata" per attachment. esbuild bundle 1.9 MB (core inlined for Electron runtime). 15 tests.
+- Raycast (`packages/raycast/`): two commands `view-metadata` + `scrub` with arguments/preset dropdowns; pure-logic utils module fully tested; `ray build` exits clean. 31 tests.
+- n8n (`packages/n8n-node/`): community node package `n8n-nodes-metascrub` with parse/scrub/compare operations + preset dropdown; binary input/output via `this.helpers`. 9 tests.
+- Figma (`packages/figma/`): sandbox `code.ts` walks page nodes, collects image fills by hash; UI iframe runs @metascrub/core on bytes; "Scrub all" replaces canvas image in place or exports cleaned file. `networkAccess: { allowedDomains: ["none"] }` in manifest. Bundle 2.5 KB sandbox + 173 KB UI. 12 tests.
+- Docker (`docker/`): `cli.Dockerfile` (`node:22-alpine`, ENTRYPOINT `metascrub`, OCI labels) + `api.Dockerfile` (multi-stage build of `docker/api/` Hono server). API endpoints `POST /parse|/scrub|/compare`, `GET /formats|/health`. Env `MAX_FILE_SIZE` (default 100mb) + `RATE_LIMIT` (default 60/min) enforced via in-memory per-IP counter; 413 on oversize, 415 on unsupported. `.github/workflows/docker.yml` publishes multi-arch to Docker Hub + GHCR on tag push (secrets gated). 16 tests. Local `docker build` deferred — daemon not running in this session.
+- Hugging Face Space (`huggingface/`): Gradio 4 Blocks app with 3 tabs (View / Scrub / AI-detection). AI-detection is pure metadata heuristic (no ML model): looks for known generator names in EXIF.Software/XMP.CreatorTool/PDF.Producer (Midjourney, Stable Diffusion, DALL-E, Adobe Firefly, Leonardo, ComfyUI, Automatic1111, NovelAI, …), PNG iTXt keys (`parameters`/`prompt`/`negative_prompt`/`workflow`), C2PA manifest presence, and Stable Diffusion generation-parameter regex in Comment/UserComment fields. 13 tests.
+- Two merge hygiene fixes during integration: (1) three plugin agents left their changes uncommitted — `cp -R` nested the dirs (`packages/vscode/vscode/`), fixed via `rsync` flatten; (2) HF agent's `metascrub @ file:./python` requirement broke under pip's resolution rules — replaced with a comment explaining the right local-install command.
+
+**Phase 4 quality gate**
+
+- [x] All 7 packages build clean.
+- [x] All packages have README + LICENSE; metadatafinder.com link present.
+- [x] No analytics, no telemetry, no phone-home in any wrapper.
+- [x] TS typecheck clean across 8 TS packages (core, cli, extension, vscode, obsidian, raycast, n8n-node, figma + docker/api).
+- [x] Test suite green: **111 new tests this phase**. Project-wide test count: 80 core + 7 cli + 24 extension + 15 vscode + 15 obsidian + 31 raycast + 9 n8n + 12 figma + 16 docker-api + 13 huggingface + 142 python = **364 tests**.
+- [ ] Docker `docker build` smoke test deferred — Docker Desktop not running in this session; Dockerfiles validated via lint + multi-stage logic review.
+- [ ] eslint still not wired (carried forward; deferred to Phase 7 catch-up).
+
+**Decisions worth remembering**
+
+- For plugin packages with chrome.storage-style APIs, the pure scanner / settings logic was extracted into separate testable modules so the agent could unit-test without a real Obsidian / Raycast / VS Code runtime — turned out to be a cleaner pattern than mocking the host API.
+- The Docker API server is **deliberately auth-free**. README documents the reverse-proxy auth pattern (Caddy / nginx basic auth or oauth-proxy). Putting auth into the image would make it harder to compose into existing setups.
+- Figma's manifest declares `networkAccess: { allowedDomains: ["none"] }` — the strongest privacy claim possible. The plugin literally cannot make network calls; verified at the manifest level.
+- HF Space's AI-detection uses no ML — entirely heuristic. Avoids pulling PyTorch / Transformers (would make the Space slow to cold-start and bloat the image). Honest about its limits: returns `unknown` when no markers found.
+- pnpm-workspace.yaml now includes `docker/api` so the Hono server picks up `@metascrub/core` as `workspace:*`.
+
+**Status**: Phase 4 code-complete. Anton approval required before: extension store submissions, `vsce publish` (VS Code), Obsidian PR, Raycast publish, `npm publish` for n8n node, Figma Community submission, `docker push`, `git push`, HF Space push to Hub.
+
+**Next session entry point**: Phase 5 — Desktop app (Tauri) + Content batch (4 SEO blog posts + press kit + privacy policy page). Two parallel streams per ROADMAP.md: `desktop-developer` (Tauri 2 scaffold, three-pane UI, drag-drop, batch progress, per-OS installer builds, Flathub manifest) and `docs-writer` (4 SEO blog posts + cross-post versions + Substack + press kit + privacy policy).
+
+---
+
 ## 2026-05-30 — Session 3: Phase 3 (Extension + Python)
 
 **Goal**: Ship browser extension submission-ready for 4 stores + PyPI package ready to publish.
