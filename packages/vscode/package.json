@@ -1,0 +1,78 @@
+{
+  "name": "metascrub",
+  "displayName": "MetaScrub — Metadata Viewer",
+  "description": "View metadata of images, PDFs, DOCX, and more — without leaving VS Code.",
+  "version": "0.2.0",
+  "publisher": "metadatafinder",
+  "homepage": "https://metadatafinder.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metascrub/metascrub",
+    "directory": "packages/vscode"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": [
+    "metadata",
+    "exif",
+    "iptc",
+    "xmp",
+    "gps",
+    "privacy",
+    "scrub",
+    "strip",
+    "pdf",
+    "docx",
+    "image",
+    "photo",
+    "metadatafinder"
+  ],
+  "activationEvents": [
+    "onCommand:metascrub.view",
+    "onCommand:metascrub.scrub"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "metascrub.view",
+        "title": "MetaScrub: View metadata"
+      },
+      {
+        "command": "metascrub.scrub",
+        "title": "MetaScrub: Scrub metadata"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "metascrub.view",
+          "when": "resourceExtname =~ /^\\.(jpg|jpeg|png|heic|webp|tiff|avif|pdf|docx|xlsx|pptx|epub|svg|mp3|mp4|mov)$/i",
+          "group": "metascrub@1"
+        },
+        {
+          "command": "metascrub.scrub",
+          "when": "resourceExtname =~ /^\\.(jpg|jpeg|png|heic|webp|tiff|avif|pdf|docx|xlsx|pptx|epub|svg|mp3|mp4|mov)$/i",
+          "group": "metascrub@2"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@metascrub/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}

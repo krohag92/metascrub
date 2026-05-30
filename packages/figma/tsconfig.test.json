@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "types": ["@figma/plugin-typings"],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "paths": {
+      "@metascrub/core": ["../core/dist/index.d.ts"]
+    }
+  },
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

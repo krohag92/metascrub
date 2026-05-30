@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MetaScrub</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-surface: #f5f5f5;
+        --color-border: #e0e0e0;
+        --color-text: #1a1a1a;
+        --color-text-muted: #666666;
+        --color-accent: #0d6fcc;
+        --color-warning: #d97706;
+        --color-danger: #dc2626;
+        --color-success: #16a34a;
+        --color-navy: #0f2444;
+        --color-green: #22c55e;
+        --radius: 6px;
+        --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--font);
+        font-size: 12px;
+        background: var(--color-bg);
+        color: var(--color-text);
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      header {
+        background: var(--color-navy);
+        color: white;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+      }
+
+      header h1 {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }
+
+      header span {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      #toolbar {
+        padding: 8px 14px;
+        border-bottom: 1px solid var(--color-border);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      #toolbar label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        user-select: none;
+      }
+
+      button {
+        padding: 5px 12px;
+        border-radius: var(--radius);
+        border: none;
+        font-family: var(--font);
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+
+      button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      button:hover:not(:disabled) {
+        opacity: 0.85;
+      }
+
+      .btn-primary {
+        background: var(--color-navy);
+        color: white;
+      }
+
+      .btn-secondary {
+        background: var(--color-surface);
+        color: var(--color-text);
+        border: 1px solid var(--color-border);
+      }
+
+      #content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px 14px;
+      }
+
+      #status {
+        text-align: center;
+        color: var(--color-text-muted);
+        padding: 32px 16px;
+        font-size: 12px;
+      }
+
+      .image-card {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+
+      .image-card-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .image-thumb {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        border-radius: 3px;
+        border: 1px solid var(--color-border);
+        flex-shrink: 0;
+      }
+
+      .image-thumb-placeholder {
+        width: 32px;
+        height: 32px;
+        border-radius: 3px;
+        border: 1px solid var(--color-border);
+        background: var(--color-border);
+        flex-shrink: 0;
+      }
+
+      .image-card-title {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .image-card-title strong {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .image-card-title span {
+        font-size: 10px;
+        color: var(--color-text-muted);
+      }
+
+      .image-card-actions {
+        display: flex;
+        gap: 5px;
+      }
+
+      .image-card-body {
+        padding: 8px 10px;
+      }
+
+      .warning-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #fef3c7;
+        color: var(--color-warning);
+        border: 1px solid #fde68a;
+        border-radius: 3px;
+        padding: 2px 6px;
+        font-size: 10px;
+        font-weight: 500;
+        margin-bottom: 6px;
+      }
+
+      .no-meta {
+        color: var(--color-success);
+        font-size: 11px;
+      }
+
+      .meta-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+      }
+
+      .meta-table td {
+        padding: 3px 4px;
+        vertical-align: top;
+      }
+
+      .meta-table td:first-child {
+        color: var(--color-text-muted);
+        width: 40%;
+        white-space: nowrap;
+        font-weight: 500;
+      }
+
+      .meta-table td:last-child {
+        color: var(--color-text);
+        word-break: break-all;
+      }
+
+      .sensitive-row td {
+        background: #fff7ed;
+      }
+
+      .meta-groups {
+        margin-top: 4px;
+      }
+
+      .meta-group-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 6px 0 3px;
+      }
+
+      footer {
+        border-top: 1px solid var(--color-border);
+        padding: 6px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        gap: 4px;
+        font-size: 10px;
+        color: var(--color-text-muted);
+      }
+
+      footer a {
+        color: var(--color-accent);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>MetaScrub</h1>
+      <span>Image Metadata</span>
+    </header>
+
+    <div id="toolbar">
+      <label>
+        <input type="checkbox" id="exportToggle" />
+        Export only (don't replace in canvas)
+      </label>
+      <div style="flex: 1"></div>
+      <button class="btn-primary" id="scrubAllBtn" disabled>Scrub all</button>
+    </div>
+
+    <div id="content">
+      <div id="status">Scanning page for images&hellip;</div>
+    </div>
+
+    <footer>
+      Powered by <a href="https://metadatafinder.com" target="_blank">metadatafinder.com</a>
+    </footer>
+
+    <script>
+      __MAIN_SCRIPT__;
+    </script>
+  </body>
+</html>

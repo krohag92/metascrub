@@ -1,0 +1,21 @@
+# Source files — not needed in the packaged extension
+src/
+test/
+out/
+
+# Build tooling
+build.mjs
+tsconfig.json
+node_modules/
+.eslintrc*
+.prettierrc*
+*.map
+
+# Monorepo plumbing
+pnpm-lock.yaml
+pnpm-workspace.yaml
+turbo.json
+
+# Misc
+.DS_Store
+*.vsix
