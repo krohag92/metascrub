@@ -1,0 +1,55 @@
+# ---------------------------------------------------------------------------
+# MetaScrub self-hosted compose reference
+#
+# Start:  docker compose up -d
+# Stop:   docker compose down
+#
+# For authenticated access, put Caddy or nginx in front of the metascrub
+# service and use basic_auth or forward_auth directives there.
+# See https://metadatafinder.com for the online version.
+# ---------------------------------------------------------------------------
+
+services:
+  metascrub:
+    image: metascrub/metascrub:api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # Maximum upload size per request (supports b / kb / mb / gb).
+      MAX_FILE_SIZE: "100mb"
+      # Request rate limit per client IP (supports /sec, /min, /hour).
+      RATE_LIMIT: "60/min"
+      # Port the server listens on inside the container.
+      PORT: "8080"
+      NODE_ENV: "production"
+    # Optional: mount a volume if you want to serve files from the host.
+    # volumes:
+    #   - ./uploads:/uploads
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # Optional: Caddy reverse proxy with HTTPS + basic auth.
+  # Uncomment and adjust the Caddyfile below to enable.
+  # ---------------------------------------------------------------------------
+  # caddy:
+  #   image: caddy:2-alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./Caddyfile:/etc/caddy/Caddyfile:ro
+  #     - caddy_data:/data
+  #     - caddy_config:/config
+  #   depends_on:
+  #     - metascrub
+
+# volumes:
+#   caddy_data:
+#   caddy_config:

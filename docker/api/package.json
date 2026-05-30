@@ -1,0 +1,43 @@
+{
+  "name": "@metascrub/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HTTP API server for MetaScrub — view and strip metadata from any file. See https://metadatafinder.com",
+  "license": "MIT",
+  "homepage": "https://metadatafinder.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metascrub/metascrub",
+    "directory": "docker/api"
+  },
+  "type": "module",
+  "main": "./dist/server.js",
+  "scripts": {
+    "build": "tsup src/server.ts --format esm --target node22 --out-dir dist --no-splitting",
+    "dev": "node --watch dist/server.js",
+    "start": "node dist/server.js",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.0",
+    "@metascrub/core": "workspace:*",
+    "hono": "^4.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  },
+  "keywords": [
+    "metadata",
+    "exif",
+    "scrub",
+    "strip",
+    "api",
+    "hono",
+    "privacy",
+    "metadatafinder"
+  ]
+}

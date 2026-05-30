@@ -1,0 +1,68 @@
+name: Publish Docker images
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU (for multi-arch builds)
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # ------------------------------------------------------------------ CLI
+      - name: Build and push CLI image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/cli.Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            metascrub/metascrub:latest
+            metascrub/metascrub:${{ github.ref_name }}
+            ghcr.io/metascrub/metascrub:latest
+            ghcr.io/metascrub/metascrub:${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # ------------------------------------------------------------------ API
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/api.Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            metascrub/metascrub:api
+            metascrub/metascrub:api-${{ github.ref_name }}
+            ghcr.io/metascrub/metascrub:api
+            ghcr.io/metascrub/metascrub:api-${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

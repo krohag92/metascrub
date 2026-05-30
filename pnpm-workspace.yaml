@@ -1,4 +1,5 @@
 packages:
   - 'packages/*'
+  - 'docker/api'
 allowBuilds:
   esbuild: true
