@@ -5,6 +5,65 @@
 
 ---
 
+## 2026-05-30 — Session 8: Phase 8 (Mobile — Capacitor iOS + Android)
+
+**Goal**: Build `packages/mobile/` — Capacitor 6 React app, iOS Share Extension, Android Share Intent, tests, store listings, privacy labels, signing guide.
+
+**Work done**
+
+- Scaffolded `packages/mobile/` with full Capacitor 6 + React + Vite + TypeScript setup.
+- `capacitor.config.ts`: appId `com.metadatafinder.metascrub`, appName `MetaScrub`, webDir `dist`.
+- Four screens: HomeScreen (recent files + pick file), FileScreen (metadata viewer with groups + warnings), ScrubScreen (preset picker + scrub action + save/share result), SettingsScreen (default preset + privacy links + about).
+- Five components: MetadataGroup (collapsible, sensitive field highlighting), Warning (red alert banner), PresetPicker (4 radio options with removes preview), TabBar (3-tab bottom nav), RecentFilesList (empty state + populated).
+- Six lib modules: route.ts (hash router + deep-link parser), pick-file.ts (Capacitor native + web fallback), save-file.ts (Documents directory write + share sheet), share-extension.ts (App.addListener appUrlOpen handler), recent-files.ts (@capacitor/preferences storage), settings.ts (user preferences).
+- iOS Share Extension Swift sources: `ios/MetaScrubShare/ShareViewController.swift` (copies shared file to App Group container, opens via metascrub:// URL scheme), `Info.plist`, `MetaScrubShare.entitlements`, main `MetaScrub.entitlements`. Setup guide in `ios/SETUP.md`.
+- Android Share Intent fragments in `android/MANIFEST_OVERRIDE.md`. Setup guide in `android/SETUP.md`.
+- App icon placeholder PNGs: public/icons (16/32/48/128), ios/icons (13 sizes including 1024 marketing), android/icons (5 mipmap densities × launcher + foreground + background).
+- Assets: SCREENSHOTS-TODO.md, privacy-nutrition-label-ios.md (Data Not Collected), data-safety-android.md (No data collected), app-store-listing.md, play-store-listing.md.
+- SIGNING.md: complete iOS Xcode archive → Transporter workflow, Android keytool keystore generation + gradle signing config + bundleRelease + Play Console upload.
+- README.md + LICENSE (MIT).
+- 44 tests passing across route.test.ts (18 tests) and components.test.tsx (26 tests).
+- Vite build succeeds producing dist/ (~438 KB main chunk, ~1.1s build).
+- TypeScript strict mode: `tsc --noEmit` clean.
+- Zero analytics, zero telemetry, zero network calls.
+
+**Quality gate**
+
+- [x] `tsc --noEmit` passes.
+- [x] 44 tests pass (vitest run).
+- [x] `pnpm build` produces dist/ successfully.
+- [x] `capacitor.config.ts` valid TypeScript with correct appId.
+- [x] SIGNING.md covers iOS archive, Android keystore generation + AAB upload.
+- [x] Privacy nutrition label + Data Safety say "No data collected".
+- [x] README + LICENSE present, metadatafinder.com linked.
+- [x] No analytics or telemetry deps in package.json.
+
+**Project-wide test total after Phase 8**: 80 core + 7 cli + 24 extension + 15 vscode + 15 obsidian + 31 raycast + 9 n8n + 12 figma + 41 desktop + 44 mobile + 16 docker-api + 13 huggingface + 142 python + 82 wordpress = **531 tests passing**.
+
+**Status**: Phase 8 code-complete. All 8 roadmap phases done. The MetaScrub suite ships across **15+ distribution channels** all building on the same `@metascrub/core` (25 formats, MIT, frozen public API):
+
+| Channel               | Status               | Anton's submit gate                                      |
+| --------------------- | -------------------- | -------------------------------------------------------- |
+| @metascrub/core (NPM) | ready                | `npm publish`                                            |
+| metascrub CLI (NPM)   | ready                | `npm publish`                                            |
+| metascrub (PyPI)      | ready                | `twine upload`                                           |
+| Browser extension     | dist.zip + Firefox   | Chrome/Edge/Opera/Firefox AMO submissions                |
+| VS Code               | esbuild bundle       | `vsce publish`                                           |
+| Obsidian              | main.js              | PR to obsidianmd/obsidian-releases                       |
+| Raycast               | `ray build` clean    | `ray publish`                                            |
+| n8n community node    | TS source            | `npm publish n8n-nodes-metascrub`                        |
+| Figma                 | dist/code.js + ui    | Figma Community submission                               |
+| Docker CLI image      | Dockerfile           | `docker build` + `docker push` on Anton's machine        |
+| Docker API image      | Dockerfile + tests   | Same                                                     |
+| HuggingFace Space     | app.py + tests       | push to Hub                                              |
+| WordPress             | PHP plugin + tests   | wordpress.org/plugins submission (1-4 wk review)         |
+| Tauri desktop         | scaffold + UI        | `tauri build` on each OS to produce dmg/msi/deb/AppImage |
+| Mobile (iOS+Android)  | scaffold + Share Ext | Anton runs `cap add ios/android`, follows SIGNING.md     |
+
+**Next**: Anton runs `npx cap add ios`, follows `ios/SETUP.md` to add the Share Extension target, then archives + uploads to App Store. Android: `npx cap add android`, applies MANIFEST_OVERRIDE.md, runs `./gradlew bundleRelease`, uploads to Play Console. Then the cross-cutting work — Anton's fact-check pass on the 16 content `[verify: ...]` placeholders, then publish/submit through each store's web form in the order documented in `content/distribution/README.md`.
+
+---
+
 ## 2026-05-30 — Session 7: Phase 7 (Content batch 2 + Distribution prep)
 
 **Goal**: 4 more SEO posts + cross-posts + launch copy + every distribution-listing draft ready for Anton to submit through each platform's web form.
