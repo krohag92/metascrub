@@ -13,7 +13,13 @@ import {
 import { useEffect, useState } from 'react';
 import { parse, scrub } from '@metascrub/core';
 import type { MetadataResult, ScrubPreset } from '@metascrub/core';
-import { cleanFilename, resolvePreset, presetLabel, computeRemovedFields, countFields } from './utils.js';
+import {
+  cleanFilename,
+  resolvePreset,
+  presetLabel,
+  computeRemovedFields,
+  countFields,
+} from './utils.js';
 
 interface ScrubArgs {
   selectFile?: string;
@@ -23,7 +29,14 @@ interface ScrubArgs {
 type ScrubState =
   | { status: 'idle' }
   | { status: 'loading' }
-  | { status: 'done'; outputPath: string; removed: number; originalCount: number; original: MetadataResult; cleaned: MetadataResult }
+  | {
+      status: 'done';
+      outputPath: string;
+      removed: number;
+      originalCount: number;
+      original: MetadataResult;
+      cleaned: MetadataResult;
+    }
   | { status: 'error'; message: string };
 
 export default function ScrubCommand(props: LaunchProps<{ arguments: ScrubArgs }>) {
@@ -46,7 +59,10 @@ export default function ScrubCommand(props: LaunchProps<{ arguments: ScrubArgs }
         const input = new Uint8Array(bytes);
 
         const original = await parse({ kind: 'bytes', data: input, filename: filePath });
-        const scrubbedBytes = await scrub({ kind: 'bytes', data: input, filename: filePath }, { preset });
+        const scrubbedBytes = await scrub(
+          { kind: 'bytes', data: input, filename: filePath },
+          { preset },
+        );
         const cleaned = await parse({ kind: 'bytes', data: scrubbedBytes, filename: filePath });
 
         const outputPath = cleanFilename(filePath);
@@ -94,7 +110,10 @@ export default function ScrubCommand(props: LaunchProps<{ arguments: ScrubArgs }
         markdown="## No file selected\n\nPass a file path as an argument to scrub its metadata."
         actions={
           <ActionPanel>
-            <Action.OpenInBrowser title="Open metadatafinder.com" url="https://metadatafinder.com" />
+            <Action.OpenInBrowser
+              title="Open metadatafinder.com"
+              url="https://metadatafinder.com"
+            />
           </ActionPanel>
         }
       />
@@ -116,7 +135,10 @@ export default function ScrubCommand(props: LaunchProps<{ arguments: ScrubArgs }
         markdown={`## Error\n\n${state.message}`}
         actions={
           <ActionPanel>
-            <Action.OpenInBrowser title="Open metadatafinder.com" url="https://metadatafinder.com" />
+            <Action.OpenInBrowser
+              title="Open metadatafinder.com"
+              url="https://metadatafinder.com"
+            />
           </ActionPanel>
         }
       />
@@ -134,7 +156,8 @@ export default function ScrubCommand(props: LaunchProps<{ arguments: ScrubArgs }
       ? removedFields
           .slice(0, 20)
           .map((f) => `- **${f.label ?? f.key}**: ~~${String(f.value)}~~`)
-          .join('\n') + (removedFields.length > 20 ? `\n- …and ${removedFields.length - 20} more` : '')
+          .join('\n') +
+        (removedFields.length > 20 ? `\n- …and ${removedFields.length - 20} more` : '')
       : '_No fields were removed._';
 
   const markdown = `

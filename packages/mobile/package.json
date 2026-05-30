@@ -19,7 +19,8 @@
     "android:open": "cap open android",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "pnpm exec eslint src test --max-warnings 0"
   },
   "dependencies": {
     "@capacitor/app": "^6.0.0",

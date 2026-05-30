@@ -24,7 +24,7 @@ JPG / JPEG, PNG, HEIC, WebP, TIFF, AVIF, PDF, DOCX, XLSX, PPTX, EPUB, SVG, MP3, 
 ### From VS Code Marketplace (recommended)
 
 1. Open VS Code.
-2. Press `Ctrl+P` (macOS: `Cmd+P`) and type `ext install metadatafinder.metascrub`.
+2. Press `Ctrl+P` (macOS: `Cmd+P`) and type `ext install metadatafinder.metascrub-vscode`.
 3. Click Install.
 
 ### From VSIX (manual)

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parse, scrub, detectFormat } from '../src/index.js';
+import { scrub, detectFormat } from '../src/index.js';
 import { makeIsobmff } from './helpers/build-isobmff.js';
 
 describe('AVIF format', () => {

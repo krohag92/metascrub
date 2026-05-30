@@ -17,7 +17,8 @@
     "dev": "node --watch dist/server.js",
     "start": "node dist/server.js",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "pnpm exec eslint src test --max-warnings 0"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",

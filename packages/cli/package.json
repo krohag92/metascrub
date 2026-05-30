@@ -22,7 +22,8 @@
     "build": "tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist .turbo"
+    "clean": "rm -rf dist .turbo",
+    "lint": "pnpm exec eslint src test --max-warnings 0"
   },
   "keywords": [
     "metadata",

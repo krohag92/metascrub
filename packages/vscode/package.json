@@ -1,5 +1,5 @@
 {
-  "name": "metascrub",
+  "name": "metascrub-vscode",
   "displayName": "MetaScrub — Metadata Viewer",
   "description": "View metadata of images, PDFs, DOCX, and more — without leaving VS Code.",
   "version": "0.2.0",
@@ -14,7 +14,9 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "keywords": [
     "metadata",
     "exif",
@@ -64,7 +66,8 @@
   "scripts": {
     "build": "node build.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "pnpm exec eslint src test --max-warnings 0"
   },
   "dependencies": {
     "@metascrub/core": "workspace:*"

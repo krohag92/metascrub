@@ -36,7 +36,11 @@ export default function ViewMetadataCommand(props: LaunchProps<{ arguments: View
     (async () => {
       try {
         const bytes = await readFile(filePath);
-        const data = await parse({ kind: 'bytes', data: new Uint8Array(bytes), filename: filePath });
+        const data = await parse({
+          kind: 'bytes',
+          data: new Uint8Array(bytes),
+          filename: filePath,
+        });
         if (!cancelled) {
           setResult(data);
         }
@@ -120,7 +124,12 @@ export default function ViewMetadataCommand(props: LaunchProps<{ arguments: View
               subtitle={formatValue(field.value)}
               accessories={
                 field.sensitive
-                  ? [{ icon: { source: Icon.ExclamationMark, tintColor: Color.Orange }, tooltip: 'Sensitive field' }]
+                  ? [
+                      {
+                        icon: { source: Icon.ExclamationMark, tintColor: Color.Orange },
+                        tooltip: 'Sensitive field',
+                      },
+                    ]
                   : []
               }
               actions={
@@ -149,15 +158,13 @@ export default function ViewMetadataCommand(props: LaunchProps<{ arguments: View
   );
 }
 
-function SharedActions({
-  filePath,
-  result,
-}: {
-  filePath: string;
-  result: MetadataResult | null;
-}) {
+function SharedActions({ filePath, result }: { filePath: string; result: MetadataResult | null }) {
   const json = result
-    ? JSON.stringify({ format: result.format, groups: result.groups, warnings: result.warnings }, null, 2)
+    ? JSON.stringify(
+        { format: result.format, groups: result.groups, warnings: result.warnings },
+        null,
+        2,
+      )
     : '';
 
   return (

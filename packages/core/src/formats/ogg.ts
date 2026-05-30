@@ -420,11 +420,9 @@ async function scrubOgg(bytes: Uint8Array, options: ScrubOptions): Promise<Uint8
   let commentSegStartIdx = -1;
   let commentSegEndIdx = -1;
   let packetIdx = countCompletedPacketsBefore(pages, commentPageIdx, firstSerial);
-  let packetLen = 0;
   let packetSegStart = 0;
   for (let s = 0; s < oldSegments.length; s += 1) {
     const segLen = oldSegments[s] ?? 0;
-    packetLen += segLen;
     scanOff += segLen;
     if (segLen < 255) {
       if (packetIdx === 1) {
@@ -436,7 +434,6 @@ async function scrubOgg(bytes: Uint8Array, options: ScrubOptions): Promise<Uint8
       }
       packetIdx += 1;
       packetSegStart = s + 1;
-      packetLen = 0;
     }
   }
   if (commentSegStartIdx < 0 || commentSegEndIdx < 0) return bytes;

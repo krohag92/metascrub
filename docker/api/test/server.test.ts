@@ -5,7 +5,7 @@
  * they run without a running server and without any Node-specific server code.
  */
 
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 // We import the app with NODE_ENV=test so the server listener is not started.
 process.env['NODE_ENV'] = 'test';

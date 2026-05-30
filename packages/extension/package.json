@@ -19,7 +19,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist dist-firefox dist.zip dist-firefox.zip .turbo"
+    "clean": "rm -rf dist dist-firefox dist.zip dist-firefox.zip .turbo",
+    "lint": "pnpm exec eslint src test --max-warnings 0"
   },
   "keywords": [
     "metadata",

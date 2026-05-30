@@ -45,7 +45,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "clean": "rm -rf dist .turbo"
+    "clean": "rm -rf dist .turbo",
+    "lint": "pnpm exec eslint nodes test --max-warnings 0"
   },
   "dependencies": {
     "@metascrub/core": "workspace:*"
