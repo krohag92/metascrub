@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.raycast-cache/
+*.js.map
+raycast-env.d.ts

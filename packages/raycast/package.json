@@ -1,0 +1,83 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "metascrub",
+  "title": "MetaScrub",
+  "description": "View and strip metadata from any file. Powered by metadatafinder.com.",
+  "icon": "command-icon.png",
+  "author": "metadatafinder",
+  "categories": ["Productivity", "Developer Tools"],
+  "license": "MIT",
+  "homepage": "https://metadatafinder.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metascrub/metascrub",
+    "directory": "packages/raycast"
+  },
+  "version": "0.1.0",
+  "commands": [
+    {
+      "name": "view-metadata",
+      "title": "View Metadata",
+      "description": "View metadata from a file",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "selectFile",
+          "placeholder": "File path",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "scrub",
+      "title": "Scrub Metadata",
+      "description": "Strip metadata from a file",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "selectFile",
+          "placeholder": "File path",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "preset",
+          "placeholder": "Preset",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            { "title": "Remove All", "value": "all" },
+            { "title": "GPS Only", "value": "gps-only" },
+            { "title": "Personal Only", "value": "personal-only" },
+            { "title": "Keep Technical", "value": "keep-technical" }
+          ]
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "@metascrub/core": "workspace:*",
+    "@raycast/api": "^1.83.1",
+    "@raycast/utils": "^1.19.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.11",
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "typecheck": "tsc --noEmit",
+    "lint": "ray lint",
+    "test": "vitest run --config vitest.config.ts",
+    "test:watch": "vitest --config vitest.config.ts"
+  }
+}
