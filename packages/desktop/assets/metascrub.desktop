@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MetaScrub
+GenericName=Metadata Viewer & Scrubber
+Comment=See and strip metadata from any file — powered by metadatafinder.com
+Exec=metascrub %F
+Icon=metascrub
+Terminal=false
+Categories=Utility;Graphics;Office;
+Keywords=metadata;exif;gps;privacy;scrub;strip;image;photo;pdf;docx;
+StartupNotify=true
+StartupWMClass=MetaScrub
+
+# MIME-type associations for all supported formats
+MimeType=image/jpeg;image/png;image/heic;image/webp;image/avif;image/tiff;image/svg+xml;video/mp4;video/quicktime;video/x-matroska;video/webm;audio/mpeg;audio/flac;audio/mp4;audio/ogg;audio/wav;application/pdf;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/epub+zip;

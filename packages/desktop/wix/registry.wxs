@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Windows Explorer right-click context menu for MetaScrub.
+  v0.1 — best-effort; included in the WiX MSI bundle.
+
+  Registry entries created under HKCR\*\shell\MetaScrub so that
+  MetaScrub appears in the right-click menu for ALL file types.
+
+  To verify after install, open regedit and look for:
+    HKEY_CLASSES_ROOT\*\shell\MetaScrub
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <DirectoryRef Id="TARGETDIR" />
+
+    <ComponentGroup Id="RegistryEntries" Directory="TARGETDIR">
+      <Component Id="MetaScrubContextMenu" Guid="A1B2C3D4-E5F6-7890-ABCD-EF1234567890">
+        <!-- The shell key that creates the menu item -->
+        <RegistryKey
+          Root="HKCR"
+          Key="*\shell\MetaScrub"
+          Action="createAndRemoveOnUninstall"
+        >
+          <RegistryValue
+            Type="string"
+            Name=""
+            Value="Scrub metadata with MetaScrub"
+          />
+          <RegistryValue
+            Type="string"
+            Name="Icon"
+            Value="[INSTALLDIR]MetaScrub.exe,0"
+          />
+        </RegistryKey>
+
+        <!-- The command to run when selected -->
+        <RegistryKey
+          Root="HKCR"
+          Key="*\shell\MetaScrub\command"
+          Action="createAndRemoveOnUninstall"
+        >
+          <RegistryValue
+            Type="string"
+            Name=""
+            Value="&quot;[INSTALLDIR]MetaScrub.exe&quot; &quot;%1&quot;"
+          />
+        </RegistryKey>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
