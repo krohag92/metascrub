@@ -5,6 +5,52 @@
 
 ---
 
+## 2026-05-30 — Session 6: Phase 6 (WordPress + HF Space polish)
+
+**Goal**: WordPress plugin submission-ready + Hugging Face Space polished.
+
+**Work done**
+
+- Sequential: WordPress plugin first, then HF Space polish.
+- WordPress (`wordpress/`): native PHP 8.0+ plugin, GPL-2.0+ license (required by wordpress.org/plugins, differs from the rest of the monorepo's MIT). Plugin structure: main file with WP plugin header → `MetaScrub` bootstrap class; `includes/` houses the main class + uploader hook + bulk cleaner + settings page + three native scrubbers (jpeg/png/pdf). The scrubbers are PHP-native — no Composer deps, no calls to the JS core, no calls home.
+  - JPEG: walks segments, drops APP1/APP2-IPTC/APP13/COM per preset, preserves SOI/JFIF/ICC/DQT/DHT/SOF/SOS/EOI.
+  - PNG: walks chunks, drops tEXt/zTXt/iTXt/eXIf/tIME, recomputes CRC32 on preserved chunks.
+  - PDF: byte-surgeries the Info dict and removes the XMP stream object; preserves dates for `keep-technical`.
+  - Hooks: `wp_handle_upload` (toggleable, never blocks uploads), Tools → MetaScrub Bulk Cleaner admin page (paginated attachment list + bulk action), Settings → MetaScrub (preset picker + toggles via WP Settings API).
+  - 82 PHP tests passing via a plain `php tests/test-*.php` runner (26 JPEG + 24 PDF + 32 PNG). Synthetic fixtures in PHP — no binary artifacts committed.
+  - readme.txt is in wordpress.org's strict format (=== / == headers; not markdown). Separate GitHub-facing README.md.
+  - Plugin-check compatibility: every output escaped, every form nonce'd + capability-checked, every input sanitized; no eval/extract/base64_decode; no external HTTP calls.
+  - The wordpress-developer agent's final response was filtered, but it had already written all 14 source files. Verified by direct `php -l` + test runs. I added the missing LICENSE (GPL-2.0+), placeholder icons/banners in `assets/` (128/256 icons + 772x250 / 1544x500 banners), and a minimal `languages/metascrub.pot` translation skeleton, then de-nested an accidental `wordpress/wordpress/` from the worktree.
+- HF Space polish (`huggingface/README.md`): added 5 status badges (Web app / PyPI / NPM / GitHub / License), distribution grid linking every install channel back to metadatafinder.com, format-coverage breakdown distinguishing the Space's 5 formats from the TS core's 25. README now has 12 metadatafinder.com mentions + 3 github.com/metascrub links. No app.py changes needed — the Gradio UI shipped with the AI-detection bonus and a clean 3-tab layout in Phase 4.
+
+**Phase 6 quality gate**
+
+- [x] WP plugin: 82 PHP tests pass.
+- [x] `php -l` clean on every PHP file.
+- [x] readme.txt parses as valid WP format.
+- [x] LICENSE present (GPL-2.0+).
+- [x] languages/metascrub.pot present.
+- [x] assets/ has the four required PNGs (placeholders — Anton swaps before submit).
+- [x] No external HTTP calls; no `eval`, no `extract`, no `base64_decode` on user input.
+- [x] HF README has badges, distribution grid, and prominent metadatafinder.com + github.com/metascrub links.
+- [ ] Anton's plugin-check WP-CLI run still pending (requires a local WP install).
+- [ ] eslint still not wired (carried forward).
+
+**Project-wide test count after Phase 6**: 80 core + 7 cli + 24 extension + 15 vscode + 15 obsidian + 31 raycast + 9 n8n + 12 figma + 16 docker-api + 13 huggingface + 41 desktop + 142 python + 82 wordpress = **487 tests passing**.
+
+**Decisions worth remembering**
+
+- WP plugin is intentionally **Composer-free**. Adding a dep makes WP.org reviewers nervous and inflates the install footprint. Native PHP byte surgery + PHP's built-in CRC32 cover everything we need.
+- The `wp_handle_upload` hook never blocks an upload — if scrubbing fails, the original file passes through and we `error_log` the failure. Privacy is opt-in, not at the expense of breaking uploads.
+- WP plugin uses GPL-2.0+ (not MIT) because wordpress.org/plugins requires it. The LICENSE file documents this divergence.
+- HF Space polish was scoped to README only — the agent's existing Gradio 3-tab UI is already on-brand and the AI-detection bonus is the real differentiator. Throwing more Gradio CSS at it would be cosmetic.
+
+**Status**: Phase 6 code-complete. Anton approval required before: wordpress.org/plugins submission (1-4 week review), Hugging Face Space push to the Hub.
+
+**Next session entry point**: Phase 7 — Content batch 2 + Distribution prep (parallel streams). Stream A (`docs-writer`): 4 more posts (Forensics use cases / OSS metadata tools comparison / Photographer's batch workflow / Journalist source protection) + cross-post variants + Product Hunt launch copy + Show HN draft. Stream B (general): Indie Hackers / Crunchbase / SaaSHub / F6S / AlternativeTo entries + Awesome-list submission texts. See ROADMAP Phase 7.
+
+---
+
 ## 2026-05-30 — Session 5: Phase 5 (Desktop app + Content batch)
 
 **Goal**: Tauri desktop ready for build on each platform + first SEO content published.
