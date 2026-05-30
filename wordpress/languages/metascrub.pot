@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MetaScrub 0.1.0\n"
+"Report-Msgid-Bugs-To: https://metadatafinder.com\n"
+"POT-Creation-Date: 2026-05-30 00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: MetaScrub 0.1.0\n"
+
+msgid "MetaScrub"
+msgstr ""
+
+msgid "MetaScrub Settings"
+msgstr ""
+
+msgid "MetaScrub Bulk Cleaner"
+msgstr ""
+
+msgid "Scrub on upload"
+msgstr ""
+
+msgid "Scrub preset"
+msgstr ""
+
+msgid "Remove every metadata field that is safe to strip."
+msgstr ""
+
+msgid "Remove GPS coordinates only; keep everything else."
+msgstr ""
+
+msgid "Remove author / owner / serial / software fields."
+msgstr ""
+
+msgid "Keep camera / exposure / dimensions; drop everything else."
+msgstr ""
+
+msgid "Show warnings to authors"
+msgstr ""
+
+msgid "Powered by metadatafinder.com"
+msgstr ""
+
+msgid "Scrub selected"
+msgstr ""
+
+msgid "Fields removed"
+msgstr ""
+
+msgid "View metadata"
+msgstr ""
