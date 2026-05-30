@@ -1,0 +1,85 @@
+{
+  "productName": "MetaScrub",
+  "version": "0.1.0",
+  "identifier": "com.metadatafinder.metascrub.desktop",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "MetaScrub",
+        "width": 900,
+        "height": 640,
+        "minWidth": 600,
+        "minHeight": 480
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "dmg", "msi", "deb", "appimage"],
+    "category": "Utility",
+    "shortDescription": "View and strip file metadata",
+    "longDescription": "MetaScrub views and strips EXIF, GPS, and document metadata from any file. Privacy-first. Powered by metadatafinder.com.",
+    "publisher": "metadatafinder.com",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "10.15",
+      "info": {
+        "NSServices": [
+          {
+            "NSMenuItem": {
+              "default": "Scrub metadata with MetaScrub"
+            },
+            "NSMessage": "scrubFiles",
+            "NSPortName": "MetaScrub",
+            "NSSendTypes": ["NSFilenamesPboardType"]
+          }
+        ]
+      }
+    },
+    "windows": {
+      "wix": {
+        "language": ["en-US"]
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "TODO: regenerate via `tauri signer generate` for production — never commit real keys",
+      "endpoints": [
+        "https://metadatafinder.com/desktop/updates/{{target}}-{{arch}}/{{current_version}}"
+      ],
+      "dialog": true,
+      "windows": {
+        "installMode": "passive"
+      }
+    },
+    "fs": {
+      "all": true,
+      "scope": {
+        "allow": ["$HOME/**", "$APPDATA/**", "$DESKTOP/**", "$DOWNLOAD/**", "$DOCUMENT/**"]
+      }
+    },
+    "dialog": {
+      "all": true
+    },
+    "store": {
+      "autoSave": 300
+    },
+    "shell": {
+      "open": true
+    }
+  }
+}

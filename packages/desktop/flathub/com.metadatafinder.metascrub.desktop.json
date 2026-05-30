@@ -1,0 +1,61 @@
+{
+  "app-id": "com.metadatafinder.metascrub.desktop",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "45",
+  "sdk": "org.gnome.Sdk",
+  "sdk-extensions": ["org.freedesktop.Sdk.Extension.rust-stable", "org.freedesktop.Sdk.Extension.node20"],
+  "command": "metascrub",
+  "finish-args": [
+    "--share=ipc",
+    "--socket=wayland",
+    "--socket=fallback-x11",
+    "--device=dri",
+    "--filesystem=home",
+    "--talk-name=org.freedesktop.Notifications"
+  ],
+  "build-options": {
+    "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node20/bin",
+    "env": {
+      "CARGO_HOME": "/run/build/metascrub/cargo-home",
+      "RUST_BACKTRACE": "1"
+    }
+  },
+  "modules": [
+    {
+      "name": "webkit2gtk",
+      "buildsystem": "autotools",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://webkitgtk.org/releases/webkitgtk-2.42.4.tar.xz",
+          "sha256": "placeholder-sha256-regenerate-before-flathub-submission"
+        }
+      ]
+    },
+    {
+      "name": "metascrub",
+      "buildsystem": "simple",
+      "build-commands": [
+        "npm ci --prefix packages/desktop",
+        "npm run build:web --prefix packages/desktop",
+        "cargo build --release --manifest-path packages/desktop/src-tauri/Cargo.toml",
+        "install -Dm755 packages/desktop/src-tauri/target/release/metascrub-desktop /app/bin/metascrub",
+        "install -Dm644 packages/desktop/assets/metascrub.desktop /app/share/applications/com.metadatafinder.metascrub.desktop.desktop",
+        "install -Dm644 packages/desktop/src-tauri/icons/128x128.png /app/share/icons/hicolor/128x128/apps/com.metadatafinder.metascrub.desktop.png",
+        "install -Dm644 packages/desktop/src-tauri/icons/256x256.png /app/share/icons/hicolor/256x256/apps/com.metadatafinder.metascrub.desktop.png",
+        "install -Dm644 packages/desktop/src-tauri/icons/512x512.png /app/share/icons/hicolor/512x512/apps/com.metadatafinder.metascrub.desktop.png"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/metascrub/metascrub.git",
+          "tag": "v0.1.0",
+          "commit": "placeholder-commit-hash-regenerate-before-submission"
+        }
+      ]
+    }
+  ],
+  "x-flathub": {
+    "build-on-aarch64": true
+  }
+}
