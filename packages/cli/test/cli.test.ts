@@ -54,8 +54,11 @@ beforeAll(async () => {
 
 describe('metascrub CLI', () => {
   it('shows version', async () => {
+    const pkg = JSON.parse(
+      await readFile(resolve(fileURLToPath(new URL('../package.json', import.meta.url))), 'utf8'),
+    ) as { version: string };
     const { stdout } = await execa('node', [CLI, '--version']);
-    expect(stdout.trim()).toBe('0.1.0');
+    expect(stdout.trim()).toBe(pkg.version);
   });
 
   it('lists supported formats', async () => {

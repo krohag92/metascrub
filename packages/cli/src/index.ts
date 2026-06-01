@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Command } from 'commander';
 import { runView } from './commands/view.js';
 import { runScrub } from './commands/scrub.js';
@@ -5,7 +8,8 @@ import { runCompare } from './commands/compare.js';
 import { runBatch } from './commands/batch.js';
 import { runFormats } from './commands/formats.js';
 
-const VERSION = '0.1.0';
+const pkgPath = join(dirname(fileURLToPath(import.meta.url)), '..', 'package.json');
+const VERSION = (JSON.parse(readFileSync(pkgPath, 'utf8')) as { version: string }).version;
 
 async function main(): Promise<void> {
   const program = new Command();
