@@ -65,6 +65,18 @@ Never do these without explicit "yes, proceed" from Anton:
 - `rm -rf` on directories outside `packages/*/dist`, `node_modules`, `__pycache__`, build artifacts
 - Adding new third-party dependencies that aren't already in `ARCHITECTURE.md` (check license first, then ask)
 
+## Bash command style
+
+- **Never prefix Bash commands with `cd <path> &&`.** You are already in the project root (`/Users/user/metascrub`); use relative paths.
+- **Use `pnpm --filter <package>` for per-package commands** instead of `cd packages/<name> && pnpm <script>`. Examples:
+  - `pnpm --filter @metascrub/core build`
+  - `pnpm --filter @metascrub/core test`
+  - `pnpm --filter metascrub typecheck`
+- For binaries, call the workspace-resolved path directly: `node_modules/.bin/tsc -p packages/core/tsconfig.json --noEmit`.
+- For the root quality gate, the root scripts already do the right thing: `pnpm test`, `pnpm build`, `pnpm typecheck`, `pnpm format:check`.
+- Compound commands across packages should use `pnpm -r run <script>` (recursive) or `turbo run <task>`, not a chain of `cd`s.
+- prefer pnpm exec / pnpm --filter wrappers over direct node_modules/.bin/ paths. This is more idiomatic and avoids unnecessary permission prompts.
+
 ## Working style
 
 - **Work in small, verifiable increments.** After each file or feature, run the relevant tests.

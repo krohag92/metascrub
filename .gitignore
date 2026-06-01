@@ -47,3 +47,6 @@ android/build/
 
 # Misc
 *.tgz
+
+# Claude Code transient state
+.claude/scheduled_tasks.lock
