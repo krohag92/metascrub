@@ -1,12 +1,12 @@
 {
   "name": "metascrub",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "View and strip metadata from images, videos, audio, and documents. CLI for the MetaScrub toolkit at metadatafinder.com.",
   "license": "MIT",
   "homepage": "https://metadatafinder.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/metascrub/metascrub",
+    "url": "https://github.com/krohag92/metascrub",
     "directory": "packages/cli"
   },
   "type": "module",

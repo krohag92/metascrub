@@ -63,14 +63,22 @@ Returns `{ onlyInA, onlyInB, changed }`.
 
 ### `supportedFormats(): FileFormat[]`
 
-## Supported formats (v0.1)
+## Supported formats
 
-- JPEG — EXIF, IPTC, XMP, GPS; segment-level scrub preserving orientation and ICC profile.
-- PNG — `tEXt`, `zTXt`, `iTXt`, `eXIf`, `tIME` chunks.
-- PDF — `/Info` dictionary and XMP metadata stream.
-- DOCX — `docProps/core.xml`, `docProps/app.xml`; scrub regenerates rather than deletes (Word will refuse files with missing core).
+25 formats total:
 
-More formats land in v0.2 — see the [project ROADMAP](https://github.com/metascrub/metascrub/blob/main/ROADMAP.md).
+- **Images (11)**: JPEG, PNG, WebP, TIFF, HEIC, AVIF, SVG + parse-only RAW (CR2, NEF, ARW, DNG).
+- **Audio (5)**: MP3, FLAC, WAV, OGG, M4A.
+- **Video (4)**: MP4, MOV, MKV, WebM.
+- **Documents (5)**: PDF, DOCX, XLSX, PPTX, EPUB.
+
+Notes:
+
+- JPEG, PNG, WebP, TIFF, HEIC, AVIF, SVG, MP3, FLAC, WAV, OGG, M4A, MP4, MOV, MKV, WebM, PDF, DOCX, XLSX, PPTX, EPUB — full round-trip scrub.
+- RAW (CR2, NEF, ARW, DNG) — parse-only; scrub throws `SCRUB_ERROR` to avoid corrupting per-vendor private IFD layouts.
+- DOCX/XLSX/PPTX scrub regenerates `docProps/core.xml` rather than deleting it (Office refuses files with missing core).
+
+Call `supportedFormats()` for the live list. See the [project ROADMAP](https://github.com/krohag92/metascrub/blob/main/ROADMAP.md) for upcoming format work.
 
 ## Privacy
 
