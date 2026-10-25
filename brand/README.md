@@ -33,6 +33,7 @@ That rasterises `logo/mark.svg` with [sharp](https://sharp.pixelplumbing.com/) (
 | Destination                                         | Sizes                                                                                                                         |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `packages/extension` (Chrome, Edge, Opera, Firefox) | 16, 32, 48, 128                                                                                                               |
+| `packages/extension-image-metadata-viewer`          | 16, 32, 48, 128                                                                                                               |
 | `packages/vscode`                                   | 128 (`icon.png`), 256 (`icon-256.png`)                                                                                        |
 | `packages/raycast`                                  | 512                                                                                                                           |
 | `packages/obsidian`                                 | 256 (`icon.png`)                                                                                                              |

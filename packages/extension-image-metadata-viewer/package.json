@@ -1,0 +1,31 @@
+{
+  "name": "image-metadata-viewer",
+  "version": "1.1.0",
+  "private": true,
+  "description": "View EXIF metadata for images on any webpage. Processing stays on your device. Part of metadatafinder.com.",
+  "license": "MIT",
+  "homepage": "https://metadatafinder.com/jpg-metadata-viewer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krohag92/metascrub",
+    "directory": "packages/extension-image-metadata-viewer"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "pnpm exec eslint src test scripts --max-warnings 0",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "exifreader": "4.31.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.325",
+    "esbuild": "^0.24.0",
+    "jsdom": "^29.1.1",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}
