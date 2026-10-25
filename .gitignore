@@ -4,6 +4,9 @@ node_modules/
 
 # Build outputs
 dist/
+# The brand kit commits its rendered icons; they are the source packages copy.
+!brand/dist/
+!brand/dist/**
 build/
 *.tsbuildinfo
 .turbo/

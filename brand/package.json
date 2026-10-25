@@ -1,0 +1,21 @@
+{
+  "name": "@metascrub/brand",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MetaScrub brand kit — logo, colour tokens, and icon generator. Part of metadatafinder.com.",
+  "license": "MIT",
+  "homepage": "https://metadatafinder.com",
+  "type": "module",
+  "scripts": {
+    "icons": "node generate.mjs",
+    "test": "vitest run",
+    "typecheck": "pnpm exec tsc --noEmit -p tsconfig.json",
+    "lint": "pnpm exec eslint generate.mjs test --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "sharp": "^0.34.3",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}

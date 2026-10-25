@@ -1,0 +1,580 @@
+{
+  "files": [
+    {
+      "path": "brand/dist/icons/16.png",
+      "width": 16,
+      "height": 16,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/24.png",
+      "width": 24,
+      "height": 24,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/32.png",
+      "width": 32,
+      "height": 32,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/48.png",
+      "width": 48,
+      "height": 48,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/64.png",
+      "width": 64,
+      "height": 64,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/96.png",
+      "width": 96,
+      "height": 96,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/128.png",
+      "width": 128,
+      "height": 128,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/180.png",
+      "width": 180,
+      "height": 180,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/192.png",
+      "width": 192,
+      "height": 192,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/256.png",
+      "width": 256,
+      "height": 256,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/512.png",
+      "width": 512,
+      "height": 512,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/1024.png",
+      "width": 1024,
+      "height": 1024,
+      "kind": "mark"
+    },
+    {
+      "path": "brand/dist/icons/ios/20.png",
+      "width": 20,
+      "height": 20,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/29.png",
+      "width": 29,
+      "height": 29,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/40.png",
+      "width": 40,
+      "height": 40,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/58.png",
+      "width": 58,
+      "height": 58,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/60.png",
+      "width": 60,
+      "height": 60,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/76.png",
+      "width": 76,
+      "height": 76,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/80.png",
+      "width": 80,
+      "height": 80,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/87.png",
+      "width": 87,
+      "height": 87,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/120.png",
+      "width": 120,
+      "height": 120,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/152.png",
+      "width": 152,
+      "height": 152,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/167.png",
+      "width": 167,
+      "height": 167,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/180.png",
+      "width": 180,
+      "height": 180,
+      "kind": "square"
+    },
+    {
+      "path": "brand/dist/icons/ios/1024.png",
+      "width": 1024,
+      "height": 1024,
+      "kind": "square"
+    },
+    {
+      "path": "brand/logo/wordmark.svg",
+      "width": 760,
+      "height": 168,
+      "kind": "svg"
+    },
+    {
+      "path": "brand/dist/wordmark.png",
+      "width": 1520,
+      "height": 336,
+      "kind": "wordmark"
+    },
+    {
+      "path": "brand/dist/store/chrome-small-tile-440x280.png",
+      "width": 440,
+      "height": 280,
+      "kind": "promo"
+    },
+    {
+      "path": "brand/dist/store/chrome-marquee-1400x560.png",
+      "width": 1400,
+      "height": 560,
+      "kind": "promo"
+    },
+    {
+      "path": "brand/dist/store/social-1280x640.png",
+      "width": 1280,
+      "height": 640,
+      "kind": "promo"
+    },
+    {
+      "path": "brand/dist/favicon.ico",
+      "width": 256,
+      "height": 256,
+      "kind": "ico"
+    },
+    {
+      "path": "packages/mobile/public/favicon.ico",
+      "width": 256,
+      "height": 256,
+      "kind": "ico"
+    },
+    {
+      "path": "packages/desktop/public/favicon.ico",
+      "width": 256,
+      "height": 256,
+      "kind": "ico"
+    },
+    {
+      "path": "brand/dist/icon.icns",
+      "width": 1024,
+      "height": 1024,
+      "kind": "icns"
+    },
+    {
+      "path": "packages/extension/public/icons/16.png",
+      "width": 16,
+      "height": 16,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension/dist-firefox/icons/16.png",
+      "width": 16,
+      "height": 16,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension/public/icons/32.png",
+      "width": 32,
+      "height": 32,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension/dist-firefox/icons/32.png",
+      "width": 32,
+      "height": 32,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension/public/icons/48.png",
+      "width": 48,
+      "height": 48,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension/dist-firefox/icons/48.png",
+      "width": 48,
+      "height": 48,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension/public/icons/128.png",
+      "width": 128,
+      "height": 128,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension/dist-firefox/icons/128.png",
+      "width": 128,
+      "height": 128,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/vscode/icon.png",
+      "width": 128,
+      "height": 128,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/vscode/icon-256.png",
+      "width": 256,
+      "height": 256,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/raycast/command-icon.png",
+      "width": 512,
+      "height": 512,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/obsidian/icon.png",
+      "width": 256,
+      "height": 256,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/figma/icon.png",
+      "width": 128,
+      "height": 128,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/n8n-node/nodes/MetaScrub/metascrub.svg",
+      "width": 16,
+      "height": 16,
+      "kind": "svg"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/16x16.png",
+      "width": 16,
+      "height": 16,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/32x32.png",
+      "width": 32,
+      "height": 32,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/48x48.png",
+      "width": 48,
+      "height": 48,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/64x64.png",
+      "width": 64,
+      "height": 64,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/128x128.png",
+      "width": 128,
+      "height": 128,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/128x128@2x.png",
+      "width": 256,
+      "height": 256,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/256x256.png",
+      "width": 256,
+      "height": 256,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/512x512.png",
+      "width": 512,
+      "height": 512,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/1024x1024.png",
+      "width": 1024,
+      "height": 1024,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/icon.png",
+      "width": 512,
+      "height": 512,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/icon.ico",
+      "width": 256,
+      "height": 256,
+      "kind": "ico"
+    },
+    {
+      "path": "packages/desktop/src-tauri/icons/icon.icns",
+      "width": 1024,
+      "height": 1024,
+      "kind": "icns"
+    },
+    {
+      "path": "packages/desktop/public/icons/32x32.png",
+      "width": 32,
+      "height": 32,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/public/icons/icon-16.png",
+      "width": 16,
+      "height": 16,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/public/icons/icon-32.png",
+      "width": 32,
+      "height": 32,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/public/icons/icon-48.png",
+      "width": 48,
+      "height": 48,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/public/icons/icon-128.png",
+      "width": 128,
+      "height": 128,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/public/icons/icon-180.png",
+      "width": 180,
+      "height": 180,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/public/icons/icon-192.png",
+      "width": 192,
+      "height": 192,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/public/icons/icon-512.png",
+      "width": 512,
+      "height": 512,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-20.png",
+      "width": 20,
+      "height": 20,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-29.png",
+      "width": 29,
+      "height": 29,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-40.png",
+      "width": 40,
+      "height": 40,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-58.png",
+      "width": 58,
+      "height": 58,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-60.png",
+      "width": 60,
+      "height": 60,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-76.png",
+      "width": 76,
+      "height": 76,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-80.png",
+      "width": 80,
+      "height": 80,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-87.png",
+      "width": 87,
+      "height": 87,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-120.png",
+      "width": 120,
+      "height": 120,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-152.png",
+      "width": 152,
+      "height": 152,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-167.png",
+      "width": 167,
+      "height": 167,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-180.png",
+      "width": 180,
+      "height": 180,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/ios/icons/icon-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "kind": "square"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-mdpi/ic_launcher.png",
+      "width": 48,
+      "height": 48,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-mdpi/ic_launcher_background.png",
+      "width": 48,
+      "height": 48,
+      "kind": "background"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-mdpi/ic_launcher_foreground.png",
+      "width": 48,
+      "height": 48,
+      "kind": "foreground"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-hdpi/ic_launcher.png",
+      "width": 72,
+      "height": 72,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-hdpi/ic_launcher_background.png",
+      "width": 72,
+      "height": 72,
+      "kind": "background"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-hdpi/ic_launcher_foreground.png",
+      "width": 72,
+      "height": 72,
+      "kind": "foreground"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xhdpi/ic_launcher.png",
+      "width": 96,
+      "height": 96,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xhdpi/ic_launcher_background.png",
+      "width": 96,
+      "height": 96,
+      "kind": "background"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xhdpi/ic_launcher_foreground.png",
+      "width": 96,
+      "height": 96,
+      "kind": "foreground"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xxhdpi/ic_launcher.png",
+      "width": 144,
+      "height": 144,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xxhdpi/ic_launcher_background.png",
+      "width": 144,
+      "height": 144,
+      "kind": "background"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "width": 144,
+      "height": 144,
+      "kind": "foreground"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xxxhdpi/ic_launcher.png",
+      "width": 192,
+      "height": 192,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xxxhdpi/ic_launcher_background.png",
+      "width": 192,
+      "height": 192,
+      "kind": "background"
+    },
+    {
+      "path": "packages/mobile/android/icons/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "width": 192,
+      "height": 192,
+      "kind": "foreground"
+    }
+  ]
+}

@@ -1,4 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="60" height="60">
-  <rect width="60" height="60" rx="12" fill="#4F46E5"/>
-  <text x="30" y="42" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#FFFFFF" text-anchor="middle">M</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-labelledby="markTitle">
+  <title id="markTitle">MetaScrub</title>
+  <rect id="bg" width="16" height="16" rx="3.5" fill="#0F172A"/>
+  <g id="artwork" fill="none" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6.2 V4.2 H6.2"/>
+    <path d="M9.8 4.2 H12 V6.2"/>
+    <path d="M4 9.8 V11.8 H6.2"/>
+    <path d="M9.8 11.8 H12 V9.8"/>
+  </g>
+  <circle id="lens" cx="8" cy="8" r="2.05" fill="#22C55E"/>
 </svg>
