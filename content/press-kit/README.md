@@ -25,6 +25,7 @@ Resources for journalists, bloggers, and anyone covering MetaScrub.
 ## Brand assets
 
 Logo files, icons, and screenshots are maintained at https://metadatafinder.com/press (when live).
+The source files live in [`brand/`](../../brand/README.md). Regenerate package icons with `pnpm brand:icons`.
 
 **Color palette:**
 

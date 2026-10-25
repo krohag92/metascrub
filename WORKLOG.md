@@ -5,6 +5,26 @@
 
 ---
 
+## 2026-10-25 — Brand kit and icon generator
+
+**Goal**: Replace solid-colour placeholder icons with a real MetaScrub / Metadata Finder mark and a script that renders every size the packages ship.
+
+**Work done**
+
+- Added `brand/` with `logo/mark.svg` (16px-grid viewfinder + lens), generated `logo/wordmark.svg`, `tokens.json` / `tokens.css` (press-kit navy `#0F172A`, green `#22C55E`, paper `#F8FAFC`), and `pnpm brand:icons` (`brand/generate.mjs`, sharp).
+- Wired rendered icons into the extension (including the committed zips), VS Code (128 and 256), Raycast (512), Obsidian, Figma, n8n SVG, Tauri PNG/ICO/ICNS, Capacitor iOS/Android/PWA, and store tiles (440×280, 1400×560, 1280×640).
+- 6 brand tests check dimensions, token colours, and that the extension zips carry the new 128px mark.
+
+**Quality gate**
+
+- [x] `pnpm --filter @metascrub/brand test` — 6 passed
+- [x] `pnpm build` and `pnpm test` — 300 tests across 13 workspace projects
+- [x] `pnpm lint` and `pnpm typecheck`
+
+**Next**: port the live Image Metadata Viewer extension onto this icon set.
+
+---
+
 ## 2026-05-30 — Session 9: Beyond Phase 8 (eslint + Sessionize)
 
 **Goal**: Close the eslint quality gate that's been deferred since Phase 1, plus author one "Beyond Phase 8" content artifact from the roadmap.

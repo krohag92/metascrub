@@ -1,5 +1,7 @@
 packages:
   - 'packages/*'
   - 'docker/api'
+  - 'brand'
 allowBuilds:
   esbuild: true
+  sharp: true
