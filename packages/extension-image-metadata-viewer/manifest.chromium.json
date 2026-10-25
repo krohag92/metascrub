@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Image Metadata Viewer",
+  "version": "1.1.0",
+  "description": "View detailed metadata (EXIF, dimensions, size) of images on any webpage. Processing stays on your device.",
+  "homepage_url": "https://metadatafinder.com/jpg-metadata-viewer",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "permissions": ["contextMenus", "activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

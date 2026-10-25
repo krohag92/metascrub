@@ -5,6 +5,26 @@
 
 ---
 
+## 2026-10-25 — Image Metadata Viewer port
+
+**Goal**: Bring the live Chrome listing (id `cflaiadbiijlghmaigkmdajbkbjnjjeo`, v1.0) into the monorepo as its own package, fix the CORS "Error" overlay, and stop writing untrusted strings as HTML.
+
+**Work done**
+
+- Added `packages/extension-image-metadata-viewer` at version 1.1.0. Same name and no `update_url`, so it can ship as an update to the existing Chrome item. Separate from `packages/extension`.
+- Image bytes and EXIF are read in the background (`exifreader@4.31.0`, MPL-2.0, license copied to `licenses/`). The content script only paints the overlay. CSS is inserted on use. Drag listeners bind once. Overlay DOM uses `textContent`.
+- Chromium zip (service worker) and Firefox zip (`image-metadata-viewer@metadatafinder.com`, background scripts, `data_collection_permissions.required: ["none"]`). `homepage_url` is `https://metadatafinder.com/jpg-metadata-viewer`. Powered-by UTM identifies the browser.
+- `PRIVACY.md` says nothing is collected and that `https://metadatafinder.com/extension/privacy` 404s. Icons come from `pnpm brand:icons`.
+
+**Quality gate**
+
+- [x] Package tests — 17 passed, including a headless Chrome for Testing run against a cross-origin JPEG with no CORS header
+- [x] `pnpm build`, `pnpm test` (317 tests), `pnpm lint`, and `pnpm typecheck`
+
+**Next**: a person hosts `PRIVACY.md` and uploads the zips. Do not publish from an agent session.
+
+---
+
 ## 2026-10-25 — Brand kit and icon generator
 
 **Goal**: Replace solid-colour placeholder icons with a real MetaScrub / Metadata Finder mark and a script that renders every size the packages ship.

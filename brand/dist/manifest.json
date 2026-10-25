@@ -575,6 +575,30 @@
       "width": 192,
       "height": 192,
       "kind": "foreground"
+    },
+    {
+      "path": "packages/extension-image-metadata-viewer/icons/16.png",
+      "width": 16,
+      "height": 16,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension-image-metadata-viewer/icons/32.png",
+      "width": 32,
+      "height": 32,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension-image-metadata-viewer/icons/48.png",
+      "width": 48,
+      "height": 48,
+      "kind": "mark"
+    },
+    {
+      "path": "packages/extension-image-metadata-viewer/icons/128.png",
+      "width": 128,
+      "height": 128,
+      "kind": "mark"
     }
   ]
 }
