@@ -44,7 +44,7 @@ pnpm --filter image-metadata-viewer test
 
 Do not upload this from an automated session. A person with the store accounts still needs to:
 
-1. Host `PRIVACY.md`. `https://metadatafinder.com/extension/privacy` returns 404. The live MetaScrub page at `/privacy-policy-for-chrome-extension` is a different product — don't reuse it for this listing.
+1. Set the privacy policy URL to https://metadatafinder.com/extension/privacy (`PRIVACY.md`). Contact is admin@metadatafinder.com. Do not use `/privacy-policy-for-chrome-extension` — that page describes the MetaScrub scrubber.
 2. Upload `dist/image-metadata-viewer-chromium.zip` as version **1.1.0** of the existing Chrome item `cflaiadbiijlghmaigkmdajbkbjnjjeo` (not as a new extension). Edge and Opera can use that same zip.
 3. Submit `dist/image-metadata-viewer-firefox.zip` to AMO. `data_collection_permissions.required` is `none`. Point reviewers at `exifreader@4.31.0` on npm for the MPL library source.
 4. Add store screenshots (the overlay on a normal webpage, including a cross-origin image). Listing copy should say that processing is local and link to the JPG metadata viewer above.

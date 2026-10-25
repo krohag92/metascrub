@@ -3,7 +3,8 @@
 **Product:** Image Metadata Viewer (browser extension)
 **Version:** 1.1.0
 **Effective:** 2026-10-25
-**Contact:** privacy@metadatafinder.com
+**Contact:** admin@metadatafinder.com
+**Privacy policy URL:** https://metadatafinder.com/extension/privacy
 
 This document is the policy for the Image Metadata Viewer extension (Chrome Web Store item `cflaiadbiijlghmaigkmdajbkbjnjjeo`, and the Firefox, Edge, and Opera packages built from the same source). It is meant to be hosted with the listing. It is not the policy for the separate MetaScrub scrubber extension.
 
@@ -41,10 +42,12 @@ There is no `storage` permission and no background sync. Closing the overlay dro
 | `scripting`                | Insert the overlay and its stylesheet only after you choose the menu item. The extension does not inject CSS into every page.                                                                                                                                                                                                                                                                                           |
 | Host access (`<all_urls>`) | Download the image you clicked when it is hosted on another site. Page scripts cannot do that when the image server does not send CORS headers. On Chrome, Edge, and Opera this is granted at install (the same grant as version 1.0). On Firefox it is requested the first time you use the menu. If you deny it, the overlay still shows alt text and on-screen size, and explains that the file itself was not read. |
 
-## Hosting this policy
+## Privacy policy URL
 
-`https://metadatafinder.com/extension/privacy` currently returns **404** (checked 2026-10-25). Do not send reviewers there until that URL serves this document (or a page that says the same thing).
+Store listings for this extension use https://metadatafinder.com/extension/privacy. That page is this document.
 
-`https://metadatafinder.com/privacy-policy-for-chrome-extension` returns 200, but it describes the MetaScrub scrubber extension, not this viewer. Use this file for Image Metadata Viewer listings instead of that page.
+Contact for privacy questions is admin@metadatafinder.com.
+
+The page at `https://metadatafinder.com/privacy-policy-for-chrome-extension` describes the MetaScrub scrubber extension, not this viewer. Do not use it for Image Metadata Viewer listings.
 
 The extension homepage field points at `https://metadatafinder.com/jpg-metadata-viewer`, which is the online image metadata viewer.

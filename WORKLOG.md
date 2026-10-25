@@ -5,6 +5,14 @@
 
 ---
 
+## 2026-10-25 — Image Metadata Viewer privacy contact
+
+**Work done**
+
+- Listing copy in `packages/extension-image-metadata-viewer` now uses admin@metadatafinder.com and https://metadatafinder.com/extension/privacy as the privacy policy URL.
+
+---
+
 ## 2026-10-25 — Image Metadata Viewer port
 
 **Goal**: Bring the live Chrome listing (id `cflaiadbiijlghmaigkmdajbkbjnjjeo`, v1.0) into the monorepo as its own package, fix the CORS "Error" overlay, and stop writing untrusted strings as HTML.
