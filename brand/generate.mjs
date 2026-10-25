@@ -492,6 +492,16 @@ for (const [density, size] of Object.entries(android)) {
   await writeForeground(size, join(dir, 'ic_launcher_foreground.png'));
 }
 
+const viewerIcons = join(
+  repoRoot,
+  'packages',
+  'extension-image-metadata-viewer',
+  'icons',
+);
+for (const size of [16, 32, 48, 128]) {
+  await copyRounded(size, join(viewerIcons, `${size}.png`));
+}
+
 writeFileSync(
   join(brandDir, 'dist', 'manifest.json'),
   JSON.stringify({ files: manifest }, null, 2) + '\n',

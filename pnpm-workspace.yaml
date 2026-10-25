@@ -4,4 +4,5 @@ packages:
   - 'brand'
 allowBuilds:
   esbuild: true
+  exifreader: true
   sharp: true
